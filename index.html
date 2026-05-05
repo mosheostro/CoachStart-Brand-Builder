@@ -1,0 +1,2602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coach Start — Build Your Coaching Brand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet">
+<style>
+/* ── Light mode tokens (default) ─────────────────────────────── */
+:root {
+  --cream: #F8F4EF;
+  --cream-deep: #EDE8E1;
+  --sand: #D4C5B0;
+  --gold: #B8956A;
+  --gold-light: #D4B896;
+  --gold-dark: #9A7B55;
+  --charcoal: #2A2622;
+  --text: #3D3833;
+  --text-muted: #8A8078;
+  --text-light: #B0A89E;
+  --white: #FDFCFA;
+  --nav-bg-scroll: rgba(248,244,239,0.94);
+  --card-bg: #FDFCFA;
+  --card-border: #D4C5B0;
+  --section-alt: #EDE8E1;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --theme-transition: background 0.35s var(--ease-out), color 0.35s var(--ease-out), border-color 0.35s var(--ease-out);
+}
+
+/* ── Dark mode tokens ────────────────────────────────────────── */
+[data-theme="dark"] {
+  --cream: #1C1A17;
+  --cream-deep: #171512;
+  --sand: #3A342C;
+  --charcoal: #F0EDE8;
+  --text: #E5E0D8;
+  --text-muted: #9A9088;
+  --text-light: #6A6460;
+  --white: #252220;
+  --nav-bg-scroll: rgba(28,26,23,0.94);
+  --card-bg: #252220;
+  --card-border: #3A342C;
+  --section-alt: #171512;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { font-family: var(--font-body); color: var(--text); background: var(--cream); line-height: 1.6; overflow-x: hidden; transition: var(--theme-transition); }
+
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ── Modals ──────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(28, 24, 18, 0.65); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.4s var(--ease-out);
+}
+.modal-overlay.active { opacity: 1; pointer-events: auto; }
+.modal-overlay .modal-content {
+  background: var(--white); border-radius: 20px;
+  max-width: 640px; width: 92%; max-height: 88vh; overflow-y: auto;
+  padding: 48px; position: relative;
+  transform: translateY(24px) scale(0.97); transition: transform 0.5s var(--ease-out);
+}
+.modal-overlay.active .modal-content { transform: translateY(0) scale(1); }
+
+/* ── Scrollbar ───────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--sand); border-radius: 3px; }
+
+.micro-anim { width: 100%; border-radius: 16px; overflow: hidden; position: relative; background: var(--charcoal); aspect-ratio: 16/9; }
+
+/* ── Mobile Nav ──────────────────────────────────────────────── */
+.nav-mobile-menu {
+  position: fixed; inset: 0; top: 64px; z-index: 99;
+  background: var(--cream); display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 24px;
+  transform: translateY(-100%); opacity: 0;
+  transition: transform 0.4s var(--ease-out), opacity 0.4s var(--ease-out);
+  pointer-events: none;
+}
+.nav-mobile-menu.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+
+.nav-controls { display: flex; align-items: center; gap: 8px; }
+
+/* ── Hamburger ───────────────────────────────────────────────── */
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--charcoal); border-radius: 2px; transition: all 0.3s var(--ease-out); }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── Theme & Lang toggles ────────────────────────────────────── */
+.ctrl-btn {
+  width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--sand);
+  background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 15px; color: var(--text-muted); transition: all 0.2s;
+}
+.ctrl-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+.lang-menu-wrap { position: relative; }
+.lang-menu {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  background: var(--white); border: 1px solid var(--card-border);
+  border-radius: 12px; padding: 6px; min-width: 120px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  display: none; z-index: 200;
+}
+.lang-menu.open { display: block; }
+.lang-opt {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px; border-radius: 8px; border: none; background: transparent;
+  width: 100%; cursor: pointer; font-size: 13px; font-weight: 500;
+  color: var(--text); font-family: var(--font-body); text-align: left;
+  transition: background 0.15s;
+}
+.lang-opt:hover { background: var(--cream-deep); }
+.lang-opt.active { color: var(--gold); }
+
+/* ── RTL support ─────────────────────────────────────────────── */
+[dir="rtl"] { text-align: right; }
+[dir="rtl"] .nav-controls { flex-direction: row-reverse; }
+[dir="rtl"] .lang-menu { right: auto; left: 0; }
+
+/* ── Responsive breakpoints ──────────────────────────────────── */
+@media (max-width: 900px) {
+  .hamburger { display: flex; }
+  .nav-cta-desktop { display: none; }
+  .section-2col { grid-template-columns: 1fr !important; }
+  .section-4col { grid-template-columns: 1fr 1fr !important; }
+  .section-3col { grid-template-columns: 1fr !important; }
+  .hero-grid { grid-template-columns: 1fr !important; }
+  .tools-grid { grid-template-columns: 1fr 1fr !important; }
+  .modal-overlay .modal-content { padding: 28px 20px; }
+  .modal-2col { grid-template-columns: 1fr !important; }
+}
+
+@media (max-width: 600px) {
+  .section-4col { grid-template-columns: 1fr !important; }
+  .tools-grid { grid-template-columns: 1fr !important; }
+  .section-pad { padding-left: 18px !important; padding-right: 18px !important; }
+  .hero-h1 { font-size: clamp(32px, 9vw, 52px) !important; }
+  .modal-overlay .modal-content { padding: 20px 16px; border-radius: 14px; }
+  .cta-btns { flex-direction: column; align-items: stretch; }
+  .cta-btns button { width: 100%; justify-content: center; }
+  .transform-compare { grid-template-columns: 1fr !important; gap: 8px !important; }
+}
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+<!-- translations + theme/lang context -->
+<script>
+window.__CS = {
+  /* ── Translations ── */
+  t: {
+    en: {
+      getStarted: "Get started",
+      buildPage: "Build my coach page →",
+      seeHow: "See how it works",
+      heroTag: "Personal branding for coaches",
+      heroH1a: "This is who you are.",
+      heroH1b: "This is how you help.",
+      heroBody: "Build a coaching page that communicates your value, attracts the right clients, and turns visitors into bookings — in three weeks.",
+      stuckTag: "The problem",
+      stuckH2: "Great coach. Quiet page. No inquiries.",
+      stuckBody: "Most coaches aren't bad at coaching — they're stuck on the business side.",
+      methodTag: "The method",
+      methodH2: "Four steps to a coaching brand that works",
+      methodBody: "Each step produces a tangible output that becomes part of your page.",
+      toolsTag: "The toolkit",
+      toolsH2: "Five tools. One powerful page.",
+      toolsBody: "Each tool contributes a piece. Together they build a complete coaching presence.",
+      transformTag: "The transformation",
+      transformH2: "From invisible to fully booked",
+      transformBody: "This isn't a cosmetic upgrade. It's a structural shift in how clients find and choose you.",
+      timelineTag: "The timeline",
+      timelineH2: "Three weeks. Complete brand.",
+      timelineBody: "A structured sprint that takes you from scattered ideas to a live, working coaching page.",
+      ctaH2: "Ready to build a brand that books?",
+      ctaBody: "Start the guided process now, or talk to someone on our team. No pressure, no pitch — just clarity.",
+      buildBrand: "Build my brand →",
+      talkHuman: "Talk to a human",
+      footerTag: "Build a coaching brand that books.",
+      footerYear: "© 2026",
+      before: "Before", after: "After",
+      week1: "Week 1", week2: "Week 2", week3: "Week 3",
+      identity: "Identity", message: "Message", launch: "Launch",
+      output: "Output",
+      clickMore: "Click to learn more →",
+      stepOf: (n, t) => `Step ${n} of ${t}`,
+      continue: "Continue →", generate: "Generate my page →", back: "← Back",
+      bookCall: "Book a call",
+      talkTitle: "Talk to a human",
+      talkBody: "15 minutes. No pitch. Just clarity on whether Coach Start is right for you.",
+      yourName: "Your name", yourEmail: "you@email.com",
+      pickTime: "Pick a time",
+      bookBtn: "Book my call →",
+      booked: (name) => `You're booked, ${name}`,
+      bookedSub: (time, email) => `${time} — we'll send a confirmation to ${email}`,
+      bookedNote: "Check your inbox for a calendar invite and prep questions.",
+      done: "Done",
+      generating: "Building your coaching page...",
+      preview: "Your coaching page",
+      previewNote: "This is a preview. In the full system, you'd customize every section.",
+      continueExploring: "Continue exploring →",
+    },
+    ru: {
+      getStarted: "Начать",
+      buildPage: "Создать мою страницу →",
+      seeHow: "Как это работает",
+      heroTag: "Личный бренд для коучей",
+      heroH1a: "Вот кто вы есть.",
+      heroH1b: "Вот как вы помогаете.",
+      heroBody: "Создайте страницу коуча, которая раскрывает вашу ценность, привлекает нужных клиентов и превращает посетителей в записи — за три недели.",
+      stuckTag: "Проблема",
+      stuckH2: "Отличный коуч. Тихая страница. Никаких запросов.",
+      stuckBody: "Большинство коучей не плохи в коучинге — они застряли на бизнес-стороне.",
+      methodTag: "Метод",
+      methodH2: "Четыре шага к бренду коуча, который работает",
+      methodBody: "Каждый шаг даёт конкретный результат, который становится частью вашей страницы.",
+      toolsTag: "Инструменты",
+      toolsH2: "Пять инструментов. Одна мощная страница.",
+      toolsBody: "Каждый инструмент вносит вклад. Вместе они формируют полноценное присутствие коуча.",
+      transformTag: "Трансформация",
+      transformH2: "От невидимости к полной записи",
+      transformBody: "Это не косметическое обновление. Это структурный сдвиг в том, как клиенты находят и выбирают вас.",
+      timelineTag: "Хронология",
+      timelineH2: "Три недели. Полный бренд.",
+      timelineBody: "Структурированный спринт, который переведёт вас от разрозненных идей к живой рабочей странице коуча.",
+      ctaH2: "Готовы создать бренд, который приносит клиентов?",
+      ctaBody: "Начните прямо сейчас или поговорите с нашей командой. Без давления, без продаж — только ясность.",
+      buildBrand: "Создать мой бренд →",
+      talkHuman: "Поговорить с человеком",
+      footerTag: "Создайте бренд коуча, который привлекает клиентов.",
+      footerYear: "© 2026",
+      before: "До", after: "После",
+      week1: "Неделя 1", week2: "Неделя 2", week3: "Неделя 3",
+      identity: "Идентичность", message: "Сообщение", launch: "Запуск",
+      output: "Результат",
+      clickMore: "Нажмите для подробностей →",
+      stepOf: (n, t) => `Шаг ${n} из ${t}`,
+      continue: "Продолжить →", generate: "Создать мою страницу →", back: "← Назад",
+      bookCall: "Записаться на звонок",
+      talkTitle: "Поговорить с человеком",
+      talkBody: "15 минут. Без давления. Просто ясность — подходит ли вам Coach Start.",
+      yourName: "Ваше имя", yourEmail: "вы@email.com",
+      pickTime: "Выберите время",
+      bookBtn: "Записаться →",
+      booked: (name) => `Вы записаны, ${name}`,
+      bookedSub: (time, email) => `${time} — отправим подтверждение на ${email}`,
+      bookedNote: "Проверьте почту — пришлём приглашение в календарь.",
+      done: "Готово",
+      generating: "Создаём вашу страницу коуча...",
+      preview: "Ваша страница коуча",
+      previewNote: "Это предварительный просмотр. В полной системе вы настроите каждый раздел.",
+      continueExploring: "Продолжить изучение →",
+    },
+    he: {
+      getStarted: "להתחיל",
+      buildPage: "בנה את דף הקואצ׳ שלי →",
+      seeHow: "ראה איך זה עובד",
+      heroTag: "מיתוג אישי לקואצ׳ים",
+      heroH1a: "זה מי שאתה.",
+      heroH1b: "זה איך שאתה עוזר.",
+      heroBody: "בנה דף קואצ׳ שמעביר את הערך שלך, מושך את הלקוחות הנכונים, והופך מבקרים להזמנות — בשלושה שבועות.",
+      stuckTag: "הבעיה",
+      stuckH2: "קואצ׳ מצוין. דף שקט. אין פניות.",
+      stuckBody: "רוב הקואצ׳ים לא גרועים בקואצ׳ינג — הם תקועים בצד העסקי.",
+      methodTag: "השיטה",
+      methodH2: "ארבעה שלבים למותג קואצ׳ שעובד",
+      methodBody: "כל שלב מייצר פלט מוחשי שהופך לחלק מהדף שלך.",
+      toolsTag: "ערכת הכלים",
+      toolsH2: "חמישה כלים. דף אחד עוצמתי.",
+      toolsBody: "כל כלי תורם חלק. יחד הם בונים נוכחות קואצ׳ מלאה.",
+      transformTag: "השינוי",
+      transformH2: "מבלתי נראה לעומס מלא",
+      transformBody: "זה לא שדרוג קוסמטי. זהו שינוי מבני באופן שלקוחות מוצאים ובוחרים אותך.",
+      timelineTag: "לוח הזמנים",
+      timelineH2: "שלושה שבועות. מותג מלא.",
+      timelineBody: "ספרינט מובנה שמוביל אותך מרעיונות מפוזרים לדף קואצ׳ חי ופועל.",
+      ctaH2: "מוכן לבנות מותג שמושך לקוחות?",
+      ctaBody: "התחל בתהליך המונחה עכשיו, או דבר עם מישהו מהצוות שלנו. ללא לחץ, ללא מכירות — רק בהירות.",
+      buildBrand: "בנה את המותג שלי →",
+      talkHuman: "דבר עם אדם",
+      footerTag: "בנה מותג קואצ׳ שמושך לקוחות.",
+      footerYear: "© 2026",
+      before: "לפני", after: "אחרי",
+      week1: "שבוע 1", week2: "שבוע 2", week3: "שבוע 3",
+      identity: "זהות", message: "מסר", launch: "השקה",
+      output: "פלט",
+      clickMore: "לחץ לפרטים נוספים →",
+      stepOf: (n, t) => `שלב ${n} מתוך ${t}`,
+      continue: "המשך →", generate: "צור את הדף שלי →", back: "← חזרה",
+      bookCall: "הזמן שיחה",
+      talkTitle: "דבר עם אדם",
+      talkBody: "15 דקות. ללא מכירות. רק בהירות אם Coach Start מתאים לך.",
+      yourName: "שמך", yourEmail: "you@email.com",
+      pickTime: "בחר זמן",
+      bookBtn: "הזמן את השיחה שלי →",
+      booked: (name) => `נקבעה לך פגישה, ${name}`,
+      bookedSub: (time, email) => `${time} — נשלח אישור ל-${email}`,
+      bookedNote: "בדוק את תיבת הדואר שלך — נשלח הזמנת יומן ושאלות הכנה.",
+      done: "סיום",
+      generating: "בונה את דף הקואצ׳ שלך...",
+      preview: "דף הקואצ׳ שלך",
+      previewNote: "זהו תצוגה מקדימה. במערכת המלאה תוכל להתאים כל סעיף.",
+      continueExploring: "המשך לחקור →",
+    },
+    de: {
+      getStarted: "Loslegen",
+      buildPage: "Meine Coach-Seite erstellen →",
+      seeHow: "So funktioniert es",
+      heroTag: "Personal Branding für Coaches",
+      heroH1a: "Das bist du.",
+      heroH1b: "So hilfst du.",
+      heroBody: "Erstelle eine Coaching-Seite, die deinen Wert kommuniziert, die richtigen Kunden anzieht und Besucher in Buchungen verwandelt — in drei Wochen.",
+      stuckTag: "Das Problem",
+      stuckH2: "Toller Coach. Stille Seite. Keine Anfragen.",
+      stuckBody: "Die meisten Coaches sind nicht schlecht im Coaching — sie stecken auf der Geschäftsseite fest.",
+      methodTag: "Die Methode",
+      methodH2: "Vier Schritte zu einer Coaching-Marke, die funktioniert",
+      methodBody: "Jeder Schritt produziert ein greifbares Ergebnis, das Teil deiner Seite wird.",
+      toolsTag: "Das Toolkit",
+      toolsH2: "Fünf Tools. Eine kraftvolle Seite.",
+      toolsBody: "Jedes Tool trägt ein Stück bei. Zusammen bauen sie eine vollständige Coaching-Präsenz auf.",
+      transformTag: "Die Transformation",
+      transformH2: "Von unsichtbar zu ausgebucht",
+      transformBody: "Das ist kein kosmetisches Upgrade. Es ist ein struktureller Wandel darin, wie Kunden dich finden und auswählen.",
+      timelineTag: "Der Zeitplan",
+      timelineH2: "Drei Wochen. Vollständige Marke.",
+      timelineBody: "Ein strukturierter Sprint, der dich von verstreuten Ideen zu einer lebendigen, funktionierenden Coaching-Seite führt.",
+      ctaH2: "Bereit, eine Marke aufzubauen, die bucht?",
+      ctaBody: "Starte jetzt den geführten Prozess, oder sprich mit jemandem aus unserem Team. Kein Druck, kein Pitch — nur Klarheit.",
+      buildBrand: "Meine Marke aufbauen →",
+      talkHuman: "Mit einem Menschen sprechen",
+      footerTag: "Erstelle eine Coaching-Marke, die bucht.",
+      footerYear: "© 2026",
+      before: "Vorher", after: "Nachher",
+      week1: "Woche 1", week2: "Woche 2", week3: "Woche 3",
+      identity: "Identität", message: "Botschaft", launch: "Launch",
+      output: "Ergebnis",
+      clickMore: "Klicken für mehr →",
+      stepOf: (n, t) => `Schritt ${n} von ${t}`,
+      continue: "Weiter →", generate: "Meine Seite erstellen →", back: "← Zurück",
+      bookCall: "Anruf buchen",
+      talkTitle: "Mit einem Menschen sprechen",
+      talkBody: "15 Minuten. Kein Pitch. Nur Klarheit, ob Coach Start das Richtige für dich ist.",
+      yourName: "Dein Name", yourEmail: "du@email.com",
+      pickTime: "Zeit wählen",
+      bookBtn: "Meinen Anruf buchen →",
+      booked: (name) => `Du bist gebucht, ${name}`,
+      bookedSub: (time, email) => `${time} — wir schicken eine Bestätigung an ${email}`,
+      bookedNote: "Schau in dein Postfach für eine Kalendereinladung und Vorbereitungsfragen.",
+      done: "Fertig",
+      generating: "Erstelle deine Coach-Seite...",
+      preview: "Deine Coach-Seite",
+      previewNote: "Das ist eine Vorschau. Im vollständigen System kannst du jeden Abschnitt anpassen.",
+      continueExploring: "Weiter erkunden →",
+    },
+  },
+  /* active lang and theme — App component reads/writes these */
+  lang: 'en',
+  theme: 'light',
+  /* t(key) — components call this for translated text */
+  tr(key) { const v = this.t[this.lang]?.[key]; return typeof v === 'string' ? v : (this.t.en[key] || key); },
+};
+</script>
+<!-- tweaks-panel.jsx -->
+<script type="text/babel">
+
+// tweaks-panel.jsx
+// Reusable Tweaks shell + form-control helpers.
+//
+// Owns the host protocol (listens for __activate_edit_mode / __deactivate_edit_mode,
+// posts __edit_mode_available / __edit_mode_set_keys / __edit_mode_dismissed) so
+// individual prototypes don't re-roll it. Ships a consistent set of controls so you
+// don't hand-draw <input type="range">, segmented radios, steppers, etc.
+//
+// Usage (in an HTML file that loads React + Babel):
+//
+//   const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+//     "primaryColor": "#D97757",
+//     "palette": ["#D97757", "#29261b", "#f6f4ef"],
+//     "fontSize": 16,
+//     "density": "regular",
+//     "dark": false
+//   }/*EDITMODE-END*/;
+//
+//   function App() {
+//     const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+//     return (
+//       <div style={{ fontSize: t.fontSize, color: t.primaryColor }}>
+//         Hello
+//         <TweaksPanel>
+//           <TweakSection label="Typography" />
+//           <TweakSlider label="Font size" value={t.fontSize} min={10} max={32} unit="px"
+//                        onChange={(v) => setTweak('fontSize', v)} />
+//           <TweakRadio  label="Density" value={t.density}
+//                        options={['compact', 'regular', 'comfy']}
+//                        onChange={(v) => setTweak('density', v)} />
+//           <TweakSection label="Theme" />
+//           <TweakColor  label="Primary" value={t.primaryColor}
+//                        options={['#D97757', '#2A6FDB', '#1F8A5B', '#7A5AE0']}
+//                        onChange={(v) => setTweak('primaryColor', v)} />
+//           <TweakColor  label="Palette" value={t.palette}
+//                        options={[['#D97757', '#29261b', '#f6f4ef'],
+//                                  ['#475569', '#0f172a', '#f1f5f9']]}
+//                        onChange={(v) => setTweak('palette', v)} />
+//           <TweakToggle label="Dark mode" value={t.dark}
+//                        onChange={(v) => setTweak('dark', v)} />
+//         </TweaksPanel>
+//       </div>
+//     );
+//   }
+//
+// ─────────────────────────────────────────────────────────────────────────────
+
+const __TWEAKS_STYLE = `
+  .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
+    max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+    transform:scale(var(--dc-inv-zoom,1));transform-origin:bottom right;
+    background:rgba(250,249,247,.78);color:#29261b;
+    -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+    border:.5px solid rgba(255,255,255,.6);border-radius:14px;
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 40px rgba(0,0,0,.18);
+    font:11.5px/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;overflow:hidden}
+  .twk-hd{display:flex;align-items:center;justify-content:space-between;
+    padding:10px 8px 10px 14px;cursor:move;user-select:none}
+  .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
+  .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
+    width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+  .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+  .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
+    overflow-y:auto;overflow-x:hidden;min-height:0;
+    scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent}
+  .twk-body::-webkit-scrollbar{width:8px}
+  .twk-body::-webkit-scrollbar-track{background:transparent;margin:2px}
+  .twk-body::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:4px;
+    border:2px solid transparent;background-clip:content-box}
+  .twk-body::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.25);
+    border:2px solid transparent;background-clip:content-box}
+  .twk-row{display:flex;flex-direction:column;gap:5px}
+  .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;
+    color:rgba(41,38,27,.72)}
+  .twk-lbl>span:first-child{font-weight:500}
+  .twk-val{color:rgba(41,38,27,.5);font-variant-numeric:tabular-nums}
+
+  .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(41,38,27,.45);padding:10px 0 0}
+  .twk-sect:first-child{padding-top:0}
+
+  .twk-field{appearance:none;width:100%;height:26px;padding:0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;
+    background:rgba(255,255,255,.6);color:inherit;font:inherit;outline:none}
+  .twk-field:focus{border-color:rgba(0,0,0,.25);background:rgba(255,255,255,.85)}
+  select.twk-field{padding-right:22px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='rgba(0,0,0,.5)' d='M0 0h10L5 6z'/></svg>");
+    background-repeat:no-repeat;background-position:right 8px center}
+
+  .twk-slider{appearance:none;-webkit-appearance:none;width:100%;height:4px;margin:6px 0;
+    border-radius:999px;background:rgba(0,0,0,.12);outline:none}
+  .twk-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+    width:14px;height:14px;border-radius:50%;background:#fff;
+    border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+  .twk-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;
+    background:#fff;border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+
+  .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;
+    background:rgba(0,0,0,.06);user-select:none}
+  .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;
+    background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.12);
+    transition:left .15s cubic-bezier(.3,.7,.4,1),width .15s}
+  .twk-seg.dragging .twk-seg-thumb{transition:none}
+  .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;
+    background:transparent;color:inherit;font:inherit;font-weight:500;min-height:22px;
+    border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2;
+    overflow-wrap:anywhere}
+
+  .twk-toggle{position:relative;width:32px;height:18px;border:0;border-radius:999px;
+    background:rgba(0,0,0,.15);transition:background .15s;cursor:default;padding:0}
+  .twk-toggle[data-on="1"]{background:#34c759}
+  .twk-toggle i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+  .twk-toggle[data-on="1"] i{transform:translateX(14px)}
+
+  .twk-num{display:flex;align-items:center;height:26px;padding:0 0 0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;background:rgba(255,255,255,.6)}
+  .twk-num-lbl{font-weight:500;color:rgba(41,38,27,.6);cursor:ew-resize;
+    user-select:none;padding-right:8px}
+  .twk-num input{flex:1;min-width:0;height:100%;border:0;background:transparent;
+    font:inherit;font-variant-numeric:tabular-nums;text-align:right;padding:0 8px 0 0;
+    outline:none;color:inherit;-moz-appearance:textfield}
+  .twk-num input::-webkit-inner-spin-button,.twk-num input::-webkit-outer-spin-button{
+    -webkit-appearance:none;margin:0}
+  .twk-num-unit{padding-right:8px;color:rgba(41,38,27,.45)}
+
+  .twk-btn{appearance:none;height:26px;padding:0 12px;border:0;border-radius:7px;
+    background:rgba(0,0,0,.78);color:#fff;font:inherit;font-weight:500;cursor:default}
+  .twk-btn:hover{background:rgba(0,0,0,.88)}
+  .twk-btn.secondary{background:rgba(0,0,0,.06);color:inherit}
+  .twk-btn.secondary:hover{background:rgba(0,0,0,.1)}
+
+  .twk-swatch{appearance:none;-webkit-appearance:none;width:56px;height:22px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:6px;padding:0;cursor:default;
+    background:transparent;flex-shrink:0}
+  .twk-swatch::-webkit-color-swatch-wrapper{padding:0}
+  .twk-swatch::-webkit-color-swatch{border:0;border-radius:5.5px}
+  .twk-swatch::-moz-color-swatch{border:0;border-radius:5.5px}
+
+  .twk-chips{display:flex;gap:6px}
+  .twk-chip{position:relative;appearance:none;flex:1;min-width:0;height:46px;
+    padding:0;border:0;border-radius:6px;overflow:hidden;cursor:default;
+    box-shadow:0 0 0 .5px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.06);
+    transition:transform .12s cubic-bezier(.3,.7,.4,1),box-shadow .12s}
+  .twk-chip:hover{transform:translateY(-1px);
+    box-shadow:0 0 0 .5px rgba(0,0,0,.18),0 4px 10px rgba(0,0,0,.12)}
+  .twk-chip[data-on="1"]{box-shadow:0 0 0 1.5px rgba(0,0,0,.85),
+    0 2px 6px rgba(0,0,0,.15)}
+  .twk-chip>span{position:absolute;top:0;bottom:0;right:0;width:34%;
+    display:flex;flex-direction:column;box-shadow:-1px 0 0 rgba(0,0,0,.1)}
+  .twk-chip>span>i{flex:1;box-shadow:0 -1px 0 rgba(0,0,0,.1)}
+  .twk-chip>span>i:first-child{box-shadow:none}
+  .twk-chip svg{position:absolute;top:6px;left:6px;width:13px;height:13px;
+    filter:drop-shadow(0 1px 1px rgba(0,0,0,.3))}
+`;
+
+// ── useTweaks ───────────────────────────────────────────────────────────────
+// Single source of truth for tweak values. setTweak persists via the host
+// (__edit_mode_set_keys → host rewrites the EDITMODE block on disk).
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  // Accepts either setTweak('key', value) or setTweak({ key: value, ... }) so a
+  // useState-style call doesn't write a "[object Object]" key into the persisted
+  // JSON block.
+  const setTweak = React.useCallback((keyOrEdits, val) => {
+    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null
+      ? keyOrEdits : { [keyOrEdits]: val };
+    setValues((prev) => ({ ...prev, ...edits }));
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
+    // Same-window signal so in-page listeners (deck-stage rail thumbnails)
+    // can react — the parent message only reaches the host, not peers.
+    window.dispatchEvent(new CustomEvent('tweakchange', { detail: edits }));
+  }, []);
+  return [values, setTweak];
+}
+
+// ── TweaksPanel ─────────────────────────────────────────────────────────────
+// Floating shell. Registers the protocol listener BEFORE announcing
+// availability — if the announce ran first, the host's activate could land
+// before our handler exists and the toolbar toggle would silently no-op.
+// The close button posts __edit_mode_dismissed so the host's toolbar toggle
+// flips off in lockstep; the host echoes __deactivate_edit_mode back which
+// is what actually hides the panel.
+function TweaksPanel({ title = 'Tweaks', noDeckControls = false, children }) {
+  const [open, setOpen] = React.useState(false);
+  const dragRef = React.useRef(null);
+  // Auto-inject a rail toggle when a <deck-stage> is on the page. The
+  // toggle drives the deck's per-viewer _railVisible via window message;
+  // state is mirrored from the same localStorage key the deck reads so
+  // the control reflects reality across reloads. The mechanism is the
+  // message — authors who want custom placement can post it directly
+  // and pass noDeckControls to suppress this one.
+  const hasDeckStage = React.useMemo(
+    () => typeof document !== 'undefined' && !!document.querySelector('deck-stage'),
+    [],
+  );
+  const [railVisible, setRailVisible] = React.useState(() => {
+    try { return localStorage.getItem('deck-stage.railVisible') !== '0'; } catch (e) { return true; }
+  });
+  const toggleRail = (on) => {
+    setRailVisible(on);
+    window.postMessage({ type: '__deck_rail_visible', on }, '*');
+  };
+  const offsetRef = React.useRef({ x: 16, y: 16 });
+  const PAD = 16;
+
+  const clampToViewport = React.useCallback(() => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const w = panel.offsetWidth, h = panel.offsetHeight;
+    const maxRight = Math.max(PAD, window.innerWidth - w - PAD);
+    const maxBottom = Math.max(PAD, window.innerHeight - h - PAD);
+    offsetRef.current = {
+      x: Math.min(maxRight, Math.max(PAD, offsetRef.current.x)),
+      y: Math.min(maxBottom, Math.max(PAD, offsetRef.current.y)),
+    };
+    panel.style.right = offsetRef.current.x + 'px';
+    panel.style.bottom = offsetRef.current.y + 'px';
+  }, []);
+
+  React.useEffect(() => {
+    if (!open) return;
+    clampToViewport();
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', clampToViewport);
+      return () => window.removeEventListener('resize', clampToViewport);
+    }
+    const ro = new ResizeObserver(clampToViewport);
+    ro.observe(document.documentElement);
+    return () => ro.disconnect();
+  }, [open, clampToViewport]);
+
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      const t = e?.data?.type;
+      if (t === '__activate_edit_mode') setOpen(true);
+      else if (t === '__deactivate_edit_mode') setOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+
+  const dismiss = () => {
+    setOpen(false);
+    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+  };
+
+  const onDragStart = (e) => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const r = panel.getBoundingClientRect();
+    const sx = e.clientX, sy = e.clientY;
+    const startRight = window.innerWidth - r.right;
+    const startBottom = window.innerHeight - r.bottom;
+    const move = (ev) => {
+      offsetRef.current = {
+        x: startRight - (ev.clientX - sx),
+        y: startBottom - (ev.clientY - sy),
+      };
+      clampToViewport();
+    };
+    const up = () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', up);
+    };
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+  };
+
+  if (!open) return null;
+  return (
+    <>
+      <style>{__TWEAKS_STYLE}</style>
+      <div ref={dragRef} className="twk-panel" data-noncommentable=""
+           style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+        <div className="twk-hd" onMouseDown={onDragStart}>
+          <b>{title}</b>
+          <button className="twk-x" aria-label="Close tweaks"
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onClick={dismiss}>✕</button>
+        </div>
+        <div className="twk-body">
+          {hasDeckStage && !noDeckControls && (
+            <TweakSection label="Deck">
+              <TweakToggle label="Thumbnail rail" value={railVisible} onChange={toggleRail} />
+            </TweakSection>
+          )}
+          {children}
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ── Layout helpers ──────────────────────────────────────────────────────────
+
+function TweakSection({ label, children }) {
+  return (
+    <>
+      <div className="twk-sect">{label}</div>
+      {children}
+    </>
+  );
+}
+
+function TweakRow({ label, value, children, inline = false }) {
+  return (
+    <div className={inline ? 'twk-row twk-row-h' : 'twk-row'}>
+      <div className="twk-lbl">
+        <span>{label}</span>
+        {value != null && <span className="twk-val">{value}</span>}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+// ── Controls ────────────────────────────────────────────────────────────────
+
+function TweakSlider({ label, value, min = 0, max = 100, step = 1, unit = '', onChange }) {
+  return (
+    <TweakRow label={label} value={`${value}${unit}`}>
+      <input type="range" className="twk-slider" min={min} max={max} step={step}
+             value={value} onChange={(e) => onChange(Number(e.target.value))} />
+    </TweakRow>
+  );
+}
+
+function TweakToggle({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <button type="button" className="twk-toggle" data-on={value ? '1' : '0'}
+              role="switch" aria-checked={!!value}
+              onClick={() => onChange(!value)}><i /></button>
+    </div>
+  );
+}
+
+function TweakRadio({ label, value, options, onChange }) {
+  const trackRef = React.useRef(null);
+  const [dragging, setDragging] = React.useState(false);
+  // The active value is read by pointer-move handlers attached for the lifetime
+  // of a drag — ref it so a stale closure doesn't fire onChange for every move.
+  const valueRef = React.useRef(value);
+  valueRef.current = value;
+
+  // Segments wrap mid-word once per-segment width runs out. The track is
+  // ~248px (280 panel − 28 body pad − 4 seg pad), each button loses 12px
+  // to its own padding, and 11.5px system-ui averages ~6.3px/char — so 2
+  // options fit ~16 chars each, 3 fit ~10. Past that (or >3 options), fall
+  // back to a dropdown rather than wrap.
+  const labelLen = (o) => String(typeof o === 'object' ? o.label : o).length;
+  const maxLen = options.reduce((m, o) => Math.max(m, labelLen(o)), 0);
+  const fitsAsSegments = maxLen <= ({ 2: 16, 3: 10 }[options.length] ?? 0);
+  if (!fitsAsSegments) {
+    // <select> emits strings — map back to the original option value so the
+    // fallback stays type-preserving (numbers, booleans) like the segment path.
+    const resolve = (s) => {
+      const m = options.find((o) => String(typeof o === 'object' ? o.value : o) === s);
+      return m === undefined ? s : typeof m === 'object' ? m.value : m;
+    };
+    return <TweakSelect label={label} value={value} options={options}
+                        onChange={(s) => onChange(resolve(s))} />;
+  }
+  const opts = options.map((o) => (typeof o === 'object' ? o : { value: o, label: o }));
+  const idx = Math.max(0, opts.findIndex((o) => o.value === value));
+  const n = opts.length;
+
+  const segAt = (clientX) => {
+    const r = trackRef.current.getBoundingClientRect();
+    const inner = r.width - 4;
+    const i = Math.floor(((clientX - r.left - 2) / inner) * n);
+    return opts[Math.max(0, Math.min(n - 1, i))].value;
+  };
+
+  const onPointerDown = (e) => {
+    setDragging(true);
+    const v0 = segAt(e.clientX);
+    if (v0 !== valueRef.current) onChange(v0);
+    const move = (ev) => {
+      if (!trackRef.current) return;
+      const v = segAt(ev.clientX);
+      if (v !== valueRef.current) onChange(v);
+    };
+    const up = () => {
+      setDragging(false);
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+
+  return (
+    <TweakRow label={label}>
+      <div ref={trackRef} role="radiogroup" onPointerDown={onPointerDown}
+           className={dragging ? 'twk-seg dragging' : 'twk-seg'}>
+        <div className="twk-seg-thumb"
+             style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`,
+                      width: `calc((100% - 4px) / ${n})` }} />
+        {opts.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}>
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </TweakRow>
+  );
+}
+
+function TweakSelect({ label, value, options, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <select className="twk-field" value={value} onChange={(e) => onChange(e.target.value)}>
+        {options.map((o) => {
+          const v = typeof o === 'object' ? o.value : o;
+          const l = typeof o === 'object' ? o.label : o;
+          return <option key={v} value={v}>{l}</option>;
+        })}
+      </select>
+    </TweakRow>
+  );
+}
+
+function TweakText({ label, value, placeholder, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <input className="twk-field" type="text" value={value} placeholder={placeholder}
+             onChange={(e) => onChange(e.target.value)} />
+    </TweakRow>
+  );
+}
+
+function TweakNumber({ label, value, min, max, step = 1, unit = '', onChange }) {
+  const clamp = (n) => {
+    if (min != null && n < min) return min;
+    if (max != null && n > max) return max;
+    return n;
+  };
+  const startRef = React.useRef({ x: 0, val: 0 });
+  const onScrubStart = (e) => {
+    e.preventDefault();
+    startRef.current = { x: e.clientX, val: value };
+    const decimals = (String(step).split('.')[1] || '').length;
+    const move = (ev) => {
+      const dx = ev.clientX - startRef.current.x;
+      const raw = startRef.current.val + dx * step;
+      const snapped = Math.round(raw / step) * step;
+      onChange(clamp(Number(snapped.toFixed(decimals))));
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  return (
+    <div className="twk-num">
+      <span className="twk-num-lbl" onPointerDown={onScrubStart}>{label}</span>
+      <input type="number" value={value} min={min} max={max} step={step}
+             onChange={(e) => onChange(clamp(Number(e.target.value)))} />
+      {unit && <span className="twk-num-unit">{unit}</span>}
+    </div>
+  );
+}
+
+// Relative-luminance contrast pick — checkmarks drawn over a swatch need to
+// read on both #111 and #fafafa without per-option configuration. Hex input
+// only (#rgb / #rrggbb); named or rgb()/hsl() colors fall through to "light".
+function __twkIsLight(hex) {
+  const h = String(hex).replace('#', '');
+  const x = h.length === 3 ? h.replace(/./g, (c) => c + c) : h.padEnd(6, '0');
+  const n = parseInt(x.slice(0, 6), 16);
+  if (Number.isNaN(n)) return true;
+  const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+  return r * 299 + g * 587 + b * 114 > 148000;
+}
+
+const __TwkCheck = ({ light }) => (
+  <svg viewBox="0 0 14 14" aria-hidden="true">
+    <path d="M3 7.2 5.8 10 11 4.2" fill="none" strokeWidth="2.2"
+          strokeLinecap="round" strokeLinejoin="round"
+          stroke={light ? 'rgba(0,0,0,.78)' : '#fff'} />
+  </svg>
+);
+
+// TweakColor — curated color/palette picker. Each option is either a single
+// hex string or an array of 1-5 hex strings; the card adapts — a lone color
+// renders solid, a palette renders colors[0] as the hero (left ~2/3) with the
+// rest stacked in a sharp column on the right. onChange emits the
+// option in the shape it was passed (string stays string, array stays array).
+// Without options it falls back to the native color input for back-compat.
+function TweakColor({ label, value, options, onChange }) {
+  if (!options || !options.length) {
+    return (
+      <div className="twk-row twk-row-h">
+        <div className="twk-lbl"><span>{label}</span></div>
+        <input type="color" className="twk-swatch" value={value}
+               onChange={(e) => onChange(e.target.value)} />
+      </div>
+    );
+  }
+  // Native <input type=color> emits lowercase hex per the HTML spec, so
+  // compare case-insensitively. String() guards JSON.stringify(undefined),
+  // which returns the primitive undefined (no .toLowerCase).
+  const key = (o) => String(JSON.stringify(o)).toLowerCase();
+  const cur = key(value);
+  return (
+    <TweakRow label={label}>
+      <div className="twk-chips" role="radiogroup">
+        {options.map((o, i) => {
+          const colors = Array.isArray(o) ? o : [o];
+          const [hero, ...rest] = colors;
+          const sup = rest.slice(0, 4);
+          const on = key(o) === cur;
+          return (
+            <button key={i} type="button" className="twk-chip" role="radio"
+                    aria-checked={on} data-on={on ? '1' : '0'}
+                    aria-label={colors.join(', ')} title={colors.join(' · ')}
+                    style={{ background: hero }}
+                    onClick={() => onChange(o)}>
+              {sup.length > 0 && (
+                <span>
+                  {sup.map((c, j) => <i key={j} style={{ background: c }} />)}
+                </span>
+              )}
+              {on && <__TwkCheck light={__twkIsLight(hero)} />}
+            </button>
+          );
+        })}
+      </div>
+    </TweakRow>
+  );
+}
+
+function TweakButton({ label, onClick, secondary = false }) {
+  return (
+    <button type="button" className={secondary ? 'twk-btn secondary' : 'twk-btn'}
+            onClick={onClick}>{label}</button>
+  );
+}
+
+Object.assign(window, {
+  useTweaks, TweaksPanel, TweakSection, TweakRow,
+  TweakSlider, TweakToggle, TweakRadio, TweakSelect,
+  TweakText, TweakNumber, TweakColor, TweakButton,
+});
+</script>
+<!-- micro-animations.jsx -->
+<script type="text/babel">
+/* Micro-animation components for inline scroll-triggered animations */
+
+const useInView = (ref, threshold = 0.3) => {
+  const [inView, setInView] = React.useState(false);
+  React.useEffect(() => {
+    if (!ref.current) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setInView(true); }, { threshold });
+    obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [ref, threshold]);
+  return inView;
+};
+
+const useAnimTimer = (inView, duration = 8000) => {
+  const [t, setT] = React.useState(0);
+  const startRef = React.useRef(null);
+  React.useEffect(() => {
+    if (!inView) return;
+    startRef.current = performance.now();
+    let raf;
+    const tick = (now) => {
+      const elapsed = now - startRef.current;
+      setT(Math.min(elapsed / duration, 1));
+      if (elapsed < duration) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, duration]);
+  return t;
+};
+
+const ease = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+const lerp = (a, b, t) => a + (b - a) * Math.min(Math.max(t, 0), 1);
+
+/* Animation 1: Hero Brand Animation - text assembling */
+const HeroBrandAnim = () => {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, 0.2);
+  const t = useAnimTimer(inView, 6000);
+
+  const words = ["Identity", "Message", "Presence", "Clients"];
+  const colors = ["#B8956A", "#D4B896", "#9A7B55", "#B8956A"];
+
+  return (
+    <div ref={ref} style={{
+      width: "100%", aspectRatio: "16/9", borderRadius: 16, overflow: "hidden",
+      background: "linear-gradient(135deg, #2A2622 0%, #3D3833 100%)",
+      display: "flex", alignItems: "center", justifyContent: "center",
+      position: "relative", fontFamily: "var(--font-display)"
+    }}>
+      <div style={{ position: "absolute", inset: 0, opacity: lerp(0, 0.15, ease(t * 3)) }}>
+        {[...Array(6)].map((_, i) => (
+          <div key={i} style={{
+            position: "absolute",
+            width: 200 + i * 60, height: 200 + i * 60,
+            borderRadius: "50%",
+            border: "1px solid rgba(184,149,106,0.2)",
+            left: "50%", top: "50%",
+            transform: `translate(-50%, -50%) scale(${lerp(0.5, 1, ease(Math.max(0, t * 3 - i * 0.1)))})`,
+          }}></div>
+        ))}
+      </div>
+      <div style={{ textAlign: "center", position: "relative", zIndex: 1 }}>
+        <div style={{
+          fontSize: 14, letterSpacing: 4, textTransform: "uppercase",
+          color: "rgba(184,149,106,0.7)", marginBottom: 16,
+          opacity: lerp(0, 1, ease(Math.max(0, (t - 0.05) * 4))),
+          transform: `translateY(${lerp(12, 0, ease(Math.max(0, (t - 0.05) * 4)))}px)`
+        }}>Your coaching brand</div>
+        <div style={{ display: "flex", gap: 24, justifyContent: "center", flexWrap: "wrap", padding: "0 20px" }}>
+          {words.map((w, i) => {
+            const delay = 0.15 + i * 0.08;
+            const wt = ease(Math.max(0, (t - delay) * 3));
+            return (
+              <span key={i} style={{
+                fontSize: 32, color: colors[i],
+                opacity: lerp(0, 1, wt),
+                transform: `translateY(${lerp(20, 0, wt)}px) scale(${lerp(0.9, 1, wt)})`,
+                display: "inline-block", transition: "none"
+              }}>{w}</span>
+            );
+          })}
+        </div>
+        <div style={{
+          marginTop: 24, width: lerp(0, 280, ease(Math.max(0, (t - 0.5) * 2.5))),
+          height: 2, background: "linear-gradient(90deg, transparent, #B8956A, transparent)",
+          margin: "24px auto 0"
+        }}></div>
+        <div style={{
+          marginTop: 16, fontSize: 18, color: "#FDFCFA",
+          opacity: lerp(0, 1, ease(Math.max(0, (t - 0.65) * 3))),
+          transform: `translateY(${lerp(10, 0, ease(Math.max(0, (t - 0.65) * 3)))}px)`,
+          fontFamily: "var(--font-display)", fontStyle: "italic"
+        }}>One powerful page</div>
+      </div>
+    </div>
+  );
+};
+
+/* Animation 2: Why Coaches Get Stuck - problems appearing */
+const StuckAnim = () => {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, 0.2);
+  const t = useAnimTimer(inView, 7000);
+
+  const problems = [
+    { icon: "◎", label: "Unclear niche", x: 20, y: 25 },
+    { icon: "◇", label: "Weak messaging", x: 65, y: 20 },
+    { icon: "□", label: "No presence", x: 35, y: 60 },
+    { icon: "△", label: "No booking path", x: 72, y: 65 },
+  ];
+
+  return (
+    <div ref={ref} style={{
+      width: "100%", aspectRatio: "16/9", borderRadius: 16, overflow: "hidden",
+      background: "linear-gradient(135deg, #2A2622, #3D3833)", position: "relative"
+    }}>
+      {/* Central coach silhouette */}
+      <div style={{
+        position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)",
+        width: 60, height: 60, borderRadius: "50%",
+        background: "rgba(184,149,106,0.15)", border: "2px solid rgba(184,149,106,0.3)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        fontSize: 24, color: "rgba(184,149,106,0.5)",
+        opacity: lerp(0, 1, ease(t * 4))
+      }}>●</div>
+      {/* Floating problem nodes */}
+      {problems.map((p, i) => {
+        const delay = 0.2 + i * 0.12;
+        const pt = ease(Math.max(0, (t - delay) * 2.5));
+        const pulse = Math.sin(t * 12 + i * 2) * 3;
+        return (
+          <div key={i} style={{
+            position: "absolute", left: `${p.x}%`, top: `${p.y}%`,
+            transform: `translate(-50%, -50%) translateY(${pulse}px)`,
+            opacity: lerp(0, 1, pt), textAlign: "center"
+          }}>
+            <div style={{
+              width: 44, height: 44, borderRadius: 12,
+              background: "rgba(184,149,106,0.12)", border: "1px solid rgba(184,149,106,0.25)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: 18, color: "#B8956A", margin: "0 auto 6px"
+            }}>{p.icon}</div>
+            <div style={{ fontSize: 11, color: "rgba(253,252,250,0.6)", whiteSpace: "nowrap" }}>{p.label}</div>
+          </div>
+        );
+      })}
+      {/* Disconnection lines */}
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+        {problems.map((p, i) => {
+          const delay = 0.35 + i * 0.1;
+          const lt = ease(Math.max(0, (t - delay) * 2));
+          return (
+            <line key={i} x1="50%" y1="50%" x2={`${p.x}%`} y2={`${p.y}%`}
+              stroke="rgba(184,149,106,0.15)" strokeWidth="1"
+              strokeDasharray="4 4" opacity={lt}
+            />
+          );
+        })}
+      </svg>
+    </div>
+  );
+};
+
+/* Animation 3: Method steps - 4 steps building */
+const MethodAnim = () => {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, 0.2);
+  const t = useAnimTimer(inView, 8000);
+
+  const steps = [
+    { num: "01", label: "Identity", color: "#B8956A" },
+    { num: "02", label: "Message", color: "#D4B896" },
+    { num: "03", label: "Presence", color: "#9A7B55" },
+    { num: "04", label: "Flow", color: "#B8956A" },
+  ];
+
+  return (
+    <div ref={ref} style={{
+      width: "100%", aspectRatio: "16/9", borderRadius: 16, overflow: "hidden",
+      background: "linear-gradient(135deg, #2A2622, #3D3833)",
+      display: "flex", alignItems: "center", justifyContent: "center", gap: 16, padding: 32
+    }}>
+      {steps.map((s, i) => {
+        const delay = 0.1 + i * 0.15;
+        const st = ease(Math.max(0, (t - delay) * 2));
+        const connectT = ease(Math.max(0, (t - delay - 0.15) * 2.5));
+        return (
+          <React.Fragment key={i}>
+            <div style={{
+              display: "flex", flexDirection: "column", alignItems: "center", gap: 10,
+              opacity: lerp(0, 1, st),
+              transform: `translateY(${lerp(24, 0, st)}px) scale(${lerp(0.85, 1, st)})`
+            }}>
+              <div style={{
+                width: 56, height: 56, borderRadius: 14,
+                background: `${s.color}18`, border: `1.5px solid ${s.color}40`,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontFamily: "var(--font-display)", fontSize: 20, color: s.color
+              }}>{s.num}</div>
+              <span style={{ fontSize: 12, color: "rgba(253,252,250,0.7)", letterSpacing: 1 }}>{s.label}</span>
+            </div>
+            {i < 3 && (
+              <div style={{
+                width: 32, height: 1, background: `linear-gradient(90deg, ${s.color}50, ${steps[i+1].color}50)`,
+                opacity: connectT, transform: `scaleX(${connectT})`, marginTop: -16
+              }}></div>
+            )}
+          </React.Fragment>
+        );
+      })}
+    </div>
+  );
+};
+
+/* Animation 4: Tools merging into one */
+const ToolsMergeAnim = () => {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, 0.2);
+  const t = useAnimTimer(inView, 8000);
+
+  const tools = [
+    { label: "Brand", angle: 0 },
+    { label: "Message", angle: 72 },
+    { label: "Content", angle: 144 },
+    { label: "Story", angle: 216 },
+    { label: "Journey", angle: 288 },
+  ];
+  const mergeT = ease(Math.max(0, (t - 0.4) * 2));
+  const radius = lerp(100, 0, mergeT);
+
+  return (
+    <div ref={ref} style={{
+      width: "100%", aspectRatio: "16/9", borderRadius: 16, overflow: "hidden",
+      background: "linear-gradient(135deg, #2A2622, #3D3833)",
+      display: "flex", alignItems: "center", justifyContent: "center", position: "relative"
+    }}>
+      {tools.map((tool, i) => {
+        const angle = (tool.angle * Math.PI) / 180;
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
+        const appear = ease(Math.max(0, (t - i * 0.06) * 3));
+        return (
+          <div key={i} style={{
+            position: "absolute",
+            transform: `translate(${x}px, ${y}px) scale(${lerp(0.8, mergeT > 0.9 ? 0 : 1, appear)})`,
+            opacity: mergeT > 0.95 ? 0 : appear,
+            display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
+          }}>
+            <div style={{
+              width: 40, height: 40, borderRadius: 10,
+              background: "rgba(184,149,106,0.12)", border: "1px solid rgba(184,149,106,0.3)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: 16, color: "#B8956A"
+            }}>◆</div>
+            <span style={{ fontSize: 10, color: "rgba(253,252,250,0.6)" }}>{tool.label}</span>
+          </div>
+        );
+      })}
+      {/* Merged result */}
+      <div style={{
+        opacity: lerp(0, 1, ease(Math.max(0, (t - 0.7) * 3))),
+        transform: `scale(${lerp(0.5, 1, ease(Math.max(0, (t - 0.7) * 3)))})`,
+        textAlign: "center"
+      }}>
+        <div style={{
+          width: 72, height: 72, borderRadius: 18,
+          background: "linear-gradient(135deg, #B8956A, #D4B896)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          fontSize: 28, color: "#2A2622", margin: "0 auto 10px",
+          boxShadow: "0 8px 32px rgba(184,149,106,0.3)"
+        }}>★</div>
+        <span style={{ fontSize: 13, color: "#FDFCFA", letterSpacing: 1 }}>Your Page</span>
+      </div>
+    </div>
+  );
+};
+
+/* Animation 5: Before/After transformation */
+const TransformAnim = () => {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, 0.2);
+  const t = useAnimTimer(inView, 8000);
+
+  const splitT = ease(Math.max(0, (t - 0.1) * 2));
+  const afterT = ease(Math.max(0, (t - 0.5) * 2));
+
+  return (
+    <div ref={ref} style={{
+      width: "100%", aspectRatio: "16/9", borderRadius: 16, overflow: "hidden",
+      background: "#2A2622", display: "flex", position: "relative"
+    }}>
+      {/* Before side */}
+      <div style={{
+        flex: 1, display: "flex", flexDirection: "column", alignItems: "center",
+        justifyContent: "center", gap: 12, opacity: splitT,
+        borderRight: "1px solid rgba(184,149,106,0.15)"
+      }}>
+        <div style={{ fontSize: 10, letterSpacing: 3, color: "rgba(253,252,250,0.4)", textTransform: "uppercase" }}>Before</div>
+        {["Unclear", "Invisible", "No clients"].map((item, i) => (
+          <div key={i} style={{
+            padding: "6px 16px", borderRadius: 8,
+            background: "rgba(253,252,250,0.04)", border: "1px solid rgba(253,252,250,0.08)",
+            fontSize: 13, color: "rgba(253,252,250,0.4)",
+            opacity: lerp(0, 1, ease(Math.max(0, (t - 0.15 - i * 0.08) * 3))),
+          }}>{item}</div>
+        ))}
+      </div>
+      {/* Arrow */}
+      <div style={{
+        position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)",
+        width: 36, height: 36, borderRadius: "50%",
+        background: "rgba(184,149,106,0.15)", border: "1px solid rgba(184,149,106,0.3)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        fontSize: 16, color: "#B8956A", zIndex: 1,
+        opacity: lerp(0, 1, ease(Math.max(0, (t - 0.35) * 3)))
+      }}>→</div>
+      {/* After side */}
+      <div style={{
+        flex: 1, display: "flex", flexDirection: "column", alignItems: "center",
+        justifyContent: "center", gap: 12, opacity: afterT
+      }}>
+        <div style={{ fontSize: 10, letterSpacing: 3, color: "#B8956A", textTransform: "uppercase" }}>After</div>
+        {["Clear", "Recognizable", "Booked"].map((item, i) => (
+          <div key={i} style={{
+            padding: "6px 16px", borderRadius: 8,
+            background: "rgba(184,149,106,0.1)", border: "1px solid rgba(184,149,106,0.25)",
+            fontSize: 13, color: "#B8956A", fontWeight: 500,
+            opacity: lerp(0, 1, ease(Math.max(0, (t - 0.55 - i * 0.08) * 3))),
+          }}>{item}</div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+/* Animation 6: CTA activation */
+const CTAAnim = () => {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, 0.3);
+  const t = useAnimTimer(inView, 6000);
+
+  return (
+    <div ref={ref} style={{
+      width: "100%", aspectRatio: "16/9", borderRadius: 16, overflow: "hidden",
+      background: "linear-gradient(135deg, #2A2622, #3D3833)",
+      display: "flex", alignItems: "center", justifyContent: "center", position: "relative"
+    }}>
+      {/* Ripple rings */}
+      {[...Array(4)].map((_, i) => {
+        const rt = Math.max(0, t - 0.3 - i * 0.08);
+        return (
+          <div key={i} style={{
+            position: "absolute", left: "50%", top: "50%",
+            width: lerp(40, 200 + i * 80, ease(rt * 2)),
+            height: lerp(40, 200 + i * 80, ease(rt * 2)),
+            borderRadius: "50%",
+            border: "1px solid rgba(184,149,106,0.15)",
+            transform: "translate(-50%, -50%)",
+            opacity: lerp(0.5, 0, ease(rt * 2))
+          }}></div>
+        );
+      })}
+      {/* CTA button mock */}
+      <div style={{
+        padding: "14px 36px", borderRadius: 50,
+        background: lerp(0, 1, ease(Math.max(0, (t - 0.2) * 3))) > 0.5
+          ? "linear-gradient(135deg, #B8956A, #D4B896)" : "rgba(184,149,106,0.15)",
+        color: lerp(0, 1, ease(Math.max(0, (t - 0.2) * 3))) > 0.5 ? "#2A2622" : "#B8956A",
+        fontSize: 15, fontWeight: 600, letterSpacing: 0.5,
+        transform: `scale(${lerp(0.9, 1, ease(Math.max(0, t * 3)))})`,
+        opacity: lerp(0, 1, ease(t * 3)),
+        boxShadow: lerp(0, 1, ease(Math.max(0, (t - 0.4) * 2))) > 0.5
+          ? "0 8px 32px rgba(184,149,106,0.3)" : "none"
+      }}>Start building →</div>
+    </div>
+  );
+};
+
+Object.assign(window, { HeroBrandAnim, StuckAnim, MethodAnim, ToolsMergeAnim, TransformAnim, CTAAnim });
+</script>
+<!-- sections.jsx -->
+<script type="text/babel">
+/* Page sections - all 7 main sections */
+
+const sectionStyle = {
+  padding: "120px 0",
+  maxWidth: 1200,
+  margin: "0 auto",
+  paddingLeft: 32,
+  paddingRight: 32,
+};
+
+const tagStyle = {
+  fontSize: 12,
+  letterSpacing: 3,
+  textTransform: "uppercase",
+  color: "var(--gold)",
+  fontWeight: 500,
+  marginBottom: 16,
+};
+
+const h2Style = {
+  fontFamily: "var(--font-display)",
+  fontSize: "clamp(32px, 5vw, 52px)",
+  lineHeight: 1.15,
+  color: "var(--charcoal)",
+  marginBottom: 20,
+};
+
+const bodyStyle = {
+  fontSize: 18,
+  lineHeight: 1.7,
+  color: "var(--text-muted)",
+  maxWidth: 560,
+};
+
+const btnPrimary = {
+  display: "inline-flex",
+  alignItems: "center",
+  gap: 8,
+  padding: "16px 32px",
+  background: "var(--charcoal)",
+  color: "var(--cream)",
+  borderRadius: 50,
+  border: "none",
+  fontSize: 16,
+  fontWeight: 500,
+  cursor: "pointer",
+  fontFamily: "var(--font-body)",
+  transition: "all 0.3s var(--ease-out)",
+};
+
+const btnSecondary = {
+  ...btnPrimary,
+  background: "transparent",
+  color: "var(--charcoal)",
+  border: "1.5px solid var(--sand)",
+};
+
+/* REVEAL WRAPPER */
+const Reveal = ({ children, delay = 0, className = "" }) => {
+  const ref = React.useRef(null);
+  const [vis, setVis] = React.useState(false);
+  React.useEffect(() => {
+    if (!ref.current) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVis(true); }, { threshold: 0.15 });
+    obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+  return (
+    <div ref={ref} className={className} style={{
+      opacity: vis ? 1 : 0,
+      transform: vis ? "translateY(0)" : "translateY(28px)",
+      transition: `opacity 0.7s ${delay}s var(--ease-out), transform 0.7s ${delay}s var(--ease-out)`,
+    }}>{children}</div>
+  );
+};
+
+/* ==================== SECTION 1: HERO ==================== */
+const HeroSection = ({ onBuild, onDemo }) => {
+  const cs = window.__CS;
+  return (
+    <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", background: "var(--cream)" }}>
+      <div style={{ ...sectionStyle, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center", width: "100%" }} className="hero-grid section-pad">
+        <div>
+          <Reveal>
+            <div style={tagStyle}>{cs.tr('heroTag')}</div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <h1 className="hero-h1" style={{
+              fontFamily: "var(--font-display)", fontSize: "clamp(36px, 5.5vw, 60px)",
+              lineHeight: 1.1, color: "var(--charcoal)", marginBottom: 24
+            }}>
+              {cs.tr('heroH1a')}<br />
+              <span style={{ color: "var(--gold)" }}>{cs.tr('heroH1b')}</span>
+            </h1>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p style={{ ...bodyStyle, marginBottom: 40 }}>{cs.tr('heroBody')}</p>
+          </Reveal>
+          <Reveal delay={0.3}>
+            <div className="cta-btns" style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+              <button style={btnPrimary} onClick={onBuild}
+                onMouseEnter={e => { e.currentTarget.style.background = "var(--gold)"; e.currentTarget.style.color = "var(--white)"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = "var(--charcoal)"; e.currentTarget.style.color = "var(--cream)"; }}
+              >{cs.tr('buildPage')}</button>
+              <button style={btnSecondary} onClick={onDemo}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--gold)"; e.currentTarget.style.color = "var(--gold)"; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--sand)"; e.currentTarget.style.color = "var(--charcoal)"; }}
+              >{cs.tr('seeHow')}</button>
+            </div>
+          </Reveal>
+        </div>
+        <Reveal delay={0.15}>
+          <HeroBrandAnim />
+        </Reveal>
+      </div>
+    </section>
+  );
+};
+
+/* ==================== SECTION 2: WHY COACHES GET STUCK ==================== */
+const StuckSection = ({ onExpandProblem }) => {
+  const cs = window.__CS;
+  const problems = [
+    { id: "niche",      icon: "◎", titleKey: "Unclear niche",       descKey: "You help everyone, so no one feels specifically called. Your ideal client can't find you because you haven't defined who they are." },
+    { id: "messaging",  icon: "◇", titleKey: "Weak messaging",       descKey: "Your page says what you do, but not why it matters. Visitors leave because they don't feel the transformation you offer." },
+    { id: "presence",   icon: "□", titleKey: "Inconsistent presence", descKey: "Your LinkedIn says one thing, your website another. There's no coherent brand story tying it all together." },
+    { id: "cta",        icon: "△", titleKey: "No clear booking path", descKey: "Visitors are interested but can't figure out what to do next. No CTA, no funnel, no follow-up — just a dead end." },
+  ];
+  return (
+    <section style={{ background: "var(--section-alt)" }}>
+      <div style={{ ...sectionStyle }} className="section-pad">
+        <Reveal><div style={tagStyle}>{cs.tr('stuckTag')}</div></Reveal>
+        <Reveal delay={0.05}><h2 style={{ ...h2Style, maxWidth: 600 }}>{cs.tr('stuckH2')}</h2></Reveal>
+        <Reveal delay={0.1}><p style={{ ...bodyStyle, marginBottom: 56 }}>{cs.tr('stuckBody')}</p></Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "start" }} className="section-2col">
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {problems.map((p, i) => (
+              <Reveal key={p.id} delay={0.15 + i * 0.08}>
+                <ProblemCard problem={p} onExpand={() => onExpandProblem(p)} />
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={0.2}><StuckAnim /></Reveal>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const ProblemCard = ({ problem, onExpand }) => {
+  const [hovered, setHovered] = React.useState(false);
+  return (
+    <button onClick={onExpand}
+      onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+      style={{
+        display: "flex", gap: 16, alignItems: "flex-start",
+        padding: 20, borderRadius: 14,
+        background: hovered ? "var(--white)" : "rgba(253,252,250,0.5)",
+        border: `1px solid ${hovered ? "var(--gold-light)" : "var(--sand)"}`,
+        cursor: "pointer", textAlign: "left", width: "100%",
+        transition: "all 0.3s var(--ease-out)",
+        fontFamily: "var(--font-body)",
+        transform: hovered ? "translateY(-2px)" : "none",
+        boxShadow: hovered ? "0 8px 24px rgba(0,0,0,0.06)" : "none",
+      }}>
+      <div style={{
+        width: 40, height: 40, borderRadius: 10, flexShrink: 0,
+        background: "rgba(184,149,106,0.1)", border: "1px solid rgba(184,149,106,0.2)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        fontSize: 16, color: "var(--gold)"
+      }}>{problem.icon}</div>
+      <div>
+        <div style={{ fontWeight: 600, fontSize: 16, color: "var(--charcoal)", marginBottom: 2 }}>{problem.title}</div>
+        <div style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.5 }}>{window.__CS.tr('clickMore')}</div>
+      </div>
+    </button>
+  );
+};
+
+/* ==================== SECTION 3: METHOD (4 STEPS) ==================== */
+const MethodSection = ({ onOpenStep }) => {
+  const cs = window.__CS;
+  const steps = [
+    { num: "01", title: "Identity & Niche",    desc: "Define who you are, who you serve, and what makes your approach unique.",             output: "Niche statement + ideal client profile" },
+    { num: "02", title: "Clear Message",        desc: "Craft messaging that speaks directly to your client's pain and desired transformation.", output: "Value proposition + core messaging framework" },
+    { num: "03", title: "Consistent Presence",  desc: "Build a unified brand across every touchpoint — page, social, conversations.",         output: "Brand guide + content pillars" },
+    { num: "04", title: "Client Flow System",   desc: "Design a clear path from first visit to booked session with no dead ends.",           output: "Booking funnel + CTA strategy" },
+  ];
+  return (
+    <section style={{ background: "var(--cream)" }}>
+      <div style={sectionStyle} className="section-pad">
+        <Reveal><div style={tagStyle}>{cs.tr('methodTag')}</div></Reveal>
+        <Reveal delay={0.05}><h2 style={h2Style}>{cs.tr('methodH2')}</h2></Reveal>
+        <Reveal delay={0.1}><p style={{ ...bodyStyle, marginBottom: 56 }}>{cs.tr('methodBody')}</p></Reveal>
+        <Reveal delay={0.15}><MethodAnim /></Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20, marginTop: 48 }} className="section-4col">
+          {steps.map((s, i) => (
+            <Reveal key={i} delay={0.2 + i * 0.08}>
+              <StepCard step={s} onClick={() => onOpenStep(s)} />
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const StepCard = ({ step, onClick }) => {
+  const [hovered, setHovered] = React.useState(false);
+  return (
+    <button onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+      style={{
+        padding: 28, borderRadius: 16, textAlign: "left", width: "100%",
+        background: hovered ? "var(--white)" : "rgba(253,252,250,0.6)",
+        border: `1px solid ${hovered ? "var(--gold-light)" : "var(--sand)"}`,
+        cursor: "pointer", fontFamily: "var(--font-body)",
+        transition: "all 0.3s var(--ease-out)",
+        transform: hovered ? "translateY(-3px)" : "none",
+        boxShadow: hovered ? "0 12px 32px rgba(0,0,0,0.06)" : "none",
+      }}>
+      <div style={{
+        fontFamily: "var(--font-display)", fontSize: 28, color: "var(--gold)", marginBottom: 12
+      }}>{step.num}</div>
+      <div style={{ fontWeight: 600, fontSize: 17, color: "var(--charcoal)", marginBottom: 8 }}>{step.title}</div>
+      <div style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.6, marginBottom: 16 }}>{step.desc}</div>
+      <div style={{
+        fontSize: 12, padding: "6px 12px", borderRadius: 20,
+        background: "rgba(184,149,106,0.1)", color: "var(--gold-dark)",
+        display: "inline-block"
+      }}>Output: {step.output}</div>
+    </button>
+  );
+};
+
+/* ==================== SECTION 4: 5 TOOLS ==================== */
+const ToolsSection = ({ onOpenTool }) => {
+  const cs = window.__CS;
+  const tools = [
+    { id: "brand",     title: "Brand Builder",      desc: "Define your visual identity, voice, and positioning in a guided workshop.", icon: "◆" },
+    { id: "messaging", title: "Messaging Engine",    desc: "Generate headlines, bios, and value props from your coaching methodology.", icon: "◈" },
+    { id: "content",   title: "Content Strategy",   desc: "Map out content pillars, post frameworks, and a 30-day plan.", icon: "▣" },
+    { id: "story",     title: "Personal Story",      desc: "Craft your origin narrative — why you coach and what drives your work.", icon: "◉" },
+    { id: "journey",   title: "Client Journey Map",  desc: "Visualize every touchpoint from discovery to booking to transformation.", icon: "⬡" },
+  ];
+  return (
+    <section style={{ background: "var(--charcoal)" }}>
+      <div style={sectionStyle} className="section-pad">
+        <Reveal><div style={{ ...tagStyle, color: "var(--gold-light)" }}>{cs.tr('toolsTag')}</div></Reveal>
+        <Reveal delay={0.05}><h2 style={{ ...h2Style, color: "var(--cream)" }}>{cs.tr('toolsH2')}</h2></Reveal>
+        <Reveal delay={0.1}>
+          <p style={{ ...bodyStyle, color: "rgba(253,252,250,0.5)", marginBottom: 48 }}>{cs.tr('toolsBody')}</p>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "3fr 2fr", gap: 48, alignItems: "center" }} className="section-2col">
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="tools-grid">
+            {tools.map((tool, i) => (
+              <Reveal key={tool.id} delay={0.15 + i * 0.06}>
+                <ToolCard tool={tool} onClick={() => onOpenTool(tool)} odd={i === 4} />
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={0.25}><ToolsMergeAnim /></Reveal>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const ToolCard = ({ tool, onClick, odd }) => {
+  const [hovered, setHovered] = React.useState(false);
+  return (
+    <button onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+      style={{
+        padding: 24, borderRadius: 14, textAlign: "left", width: "100%",
+        background: hovered ? "rgba(184,149,106,0.12)" : "rgba(253,252,250,0.04)",
+        border: `1px solid ${hovered ? "rgba(184,149,106,0.3)" : "rgba(253,252,250,0.08)"}`,
+        cursor: "pointer", fontFamily: "var(--font-body)",
+        transition: "all 0.3s var(--ease-out)",
+        gridColumn: odd ? "1 / -1" : "auto",
+      }}>
+      <div style={{ fontSize: 20, color: "var(--gold)", marginBottom: 10 }}>{tool.icon}</div>
+      <div style={{ fontWeight: 600, fontSize: 16, color: "var(--cream)", marginBottom: 6 }}>{tool.title}</div>
+      <div style={{ fontSize: 13, color: "rgba(253,252,250,0.5)", lineHeight: 1.5 }}>{tool.desc}</div>
+    </button>
+  );
+};
+
+/* ==================== SECTION 5: TRANSFORMATION ==================== */
+const TransformSection = () => {
+  const cs = window.__CS;
+  return (
+    <section style={{ background: "var(--section-alt)" }}>
+      <div style={sectionStyle} className="section-pad">
+        <Reveal><div style={tagStyle}>{cs.tr('transformTag')}</div></Reveal>
+        <Reveal delay={0.05}><h2 style={{ ...h2Style, maxWidth: 540 }}>{cs.tr('transformH2')}</h2></Reveal>
+        <Reveal delay={0.1}><p style={{ ...bodyStyle, marginBottom: 48 }}>{cs.tr('transformBody')}</p></Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }} className="section-2col">
+          <Reveal delay={0.15}><TransformAnim /></Reveal>
+          <Reveal delay={0.2}><TransformCompare /></Reveal>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const TransformCompare = () => {
+  const cs = window.__CS;
+  const befores = ["Unclear positioning — attracting no one specific", "Invisible online — no presence that stands out", "No clients — talented but not getting inquiries"];
+  const afters = ["Clear niche — the right people find you", "Recognizable brand — consistent across every touchpoint", "Booked calendar — a steady flow of aligned clients"];
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+      {befores.map((b, i) => (
+        <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: 16, alignItems: "center" }}>
+          <div style={{
+            padding: 16, borderRadius: 12,
+            background: "rgba(42,38,34,0.04)", border: "1px solid rgba(42,38,34,0.08)",
+            fontSize: 14, color: "var(--text-muted)", lineHeight: 1.5
+          }}>{b}</div>
+          <div style={{ color: "var(--gold)", fontSize: 18, fontWeight: 600 }}>→</div>
+          <div style={{
+            padding: 16, borderRadius: 12,
+            background: "rgba(184,149,106,0.08)", border: "1px solid rgba(184,149,106,0.2)",
+            fontSize: 14, color: "var(--charcoal)", lineHeight: 1.5, fontWeight: 500
+          }}>{afters[i]}</div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+/* ==================== SECTION 6: 3-WEEK SYSTEM ==================== */
+const TimelineSection = () => {
+  const cs = window.__CS;
+  const weeks = [
+    { weekKey: "week1", titleKey: "identity", items: ["Define your niche", "Map your ideal client", "Clarify your unique approach", "Create positioning statement"] },
+    { weekKey: "week2", titleKey: "message",  items: ["Craft your value proposition", "Write your origin story", "Build content pillars", "Design your brand voice"] },
+    { weekKey: "week3", titleKey: "launch",   items: ["Build your page", "Set up booking flow", "Connect social presence", "Go live with confidence"] },
+  ];
+  return (
+    <section style={{ background: "var(--cream)" }}>
+      <div style={sectionStyle} className="section-pad">
+        <Reveal><div style={tagStyle}>{cs.tr('timelineTag')}</div></Reveal>
+        <Reveal delay={0.05}><h2 style={h2Style}>{cs.tr('timelineH2')}</h2></Reveal>
+        <Reveal delay={0.1}><p style={{ ...bodyStyle, marginBottom: 56 }}>{cs.tr('timelineBody')}</p></Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }} className="section-3col">
+          {weeks.map((w, i) => (
+            <Reveal key={i} delay={0.15 + i * 0.1}>
+              <WeekCard week={{ week: cs.tr(w.weekKey), title: cs.tr(w.titleKey), items: w.items }} index={i} />
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const WeekCard = ({ week, index }) => (
+  <div style={{
+    padding: 36, borderRadius: 18,
+    background: index === 2 ? "var(--charcoal)" : "var(--white)",
+    border: index === 2 ? "none" : "1px solid var(--sand)",
+    minHeight: 320, display: "flex", flexDirection: "column",
+  }}>
+    <div style={{
+      fontSize: 12, letterSpacing: 2, textTransform: "uppercase",
+      color: index === 2 ? "var(--gold-light)" : "var(--gold)", fontWeight: 500, marginBottom: 8
+    }}>{week.week}</div>
+    <div style={{
+      fontFamily: "var(--font-display)", fontSize: 28,
+      color: index === 2 ? "var(--cream)" : "var(--charcoal)", marginBottom: 24
+    }}>{week.title}</div>
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      {week.items.map((item, j) => (
+        <div key={j} style={{
+          display: "flex", gap: 10, alignItems: "center",
+          fontSize: 15, color: index === 2 ? "rgba(253,252,250,0.7)" : "var(--text-muted)"
+        }}>
+          <div style={{
+            width: 20, height: 20, borderRadius: 6, flexShrink: 0,
+            background: index === 2 ? "rgba(184,149,106,0.15)" : "rgba(184,149,106,0.1)",
+            border: `1px solid ${index === 2 ? "rgba(184,149,106,0.3)" : "rgba(184,149,106,0.2)"}`,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: 10, color: "var(--gold)"
+          }}>✓</div>
+          {item}
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+/* ==================== SECTION 7: CTA ==================== */
+const CTASection = ({ onBuild, onTalk }) => {
+  const cs = window.__CS;
+  return (
+    <section style={{ background: "var(--section-alt)", textAlign: "center" }}>
+      <div style={{ ...sectionStyle, maxWidth: 800 }} className="section-pad">
+        <Reveal><CTAAnim /></Reveal>
+        <Reveal delay={0.1}><h2 style={{ ...h2Style, marginTop: 48, marginBottom: 16 }}>{cs.tr('ctaH2')}</h2></Reveal>
+        <Reveal delay={0.15}>
+          <p style={{ ...bodyStyle, margin: "0 auto 40px", textAlign: "center" }}>{cs.tr('ctaBody')}</p>
+        </Reveal>
+        <Reveal delay={0.2}>
+          <div className="cta-btns" style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
+            <button style={{ ...btnPrimary, padding: "18px 40px", fontSize: 17 }} onClick={onBuild}
+              onMouseEnter={e => { e.currentTarget.style.background = "var(--gold)"; e.currentTarget.style.color = "var(--white)"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = "var(--charcoal)"; e.currentTarget.style.color = "var(--cream)"; }}
+            >{cs.tr('buildBrand')}</button>
+            <button style={{ ...btnSecondary, padding: "18px 40px", fontSize: 17 }} onClick={onTalk}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--gold)"; e.currentTarget.style.color = "var(--gold)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--sand)"; e.currentTarget.style.color = "var(--charcoal)"; }}
+            >{cs.tr('talkHuman')}</button>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+};
+
+/* Navigation */
+const LANGS = [
+  { code: 'en', label: 'English', flag: '🇺🇸' },
+  { code: 'ru', label: 'Русский', flag: '🇷🇺' },
+  { code: 'he', label: 'עברית',   flag: '🇮🇱' },
+  { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
+];
+
+const Nav = ({ onBuild, theme, onThemeToggle, lang, onLangChange }) => {
+  const [scrolled, setScrolled] = React.useState(false);
+  const [menuOpen, setMenuOpen] = React.useState(false);
+  const [langOpen, setLangOpen] = React.useState(false);
+  const langRef = React.useRef(null);
+  const cs = window.__CS;
+
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  React.useEffect(() => {
+    const handler = (e) => { if (langRef.current && !langRef.current.contains(e.target)) setLangOpen(false); };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  const isDark = theme === 'dark';
+  const navBg = scrolled
+    ? 'var(--nav-bg-scroll)'
+    : (isDark ? 'rgba(28,26,23,0)' : 'transparent');
+
+  const currentLang = LANGS.find(l => l.code === lang) || LANGS[0];
+
+  return (
+    <>
+      <nav style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+        padding: "0 24px", height: 64,
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        background: scrolled ? 'var(--nav-bg-scroll)' : 'transparent',
+        backdropFilter: scrolled ? "blur(14px)" : "none",
+        borderBottom: scrolled ? "1px solid var(--sand)" : "1px solid transparent",
+        transition: "all 0.4s var(--ease-out)",
+      }}>
+        {/* Logo */}
+        <div style={{ fontFamily: "var(--font-display)", fontSize: 22, color: "var(--charcoal)", cursor: "default" }}>
+          Coach<span style={{ color: "var(--gold)" }}>Start</span>
+        </div>
+
+        {/* Controls */}
+        <div className="nav-controls">
+          {/* Dark / Light toggle */}
+          <button className="ctrl-btn" onClick={onThemeToggle} title={isDark ? "Light mode" : "Dark mode"}
+            style={{ fontSize: 16 }}>
+            {isDark ? "☀️" : "🌙"}
+          </button>
+
+          {/* Language picker */}
+          <div className="lang-menu-wrap" ref={langRef}>
+            <button className="ctrl-btn" onClick={() => setLangOpen(o => !o)} style={{ fontSize: 13, fontWeight: 600, width: "auto", padding: "0 10px", borderRadius: 20 }}>
+              {currentLang.flag} {currentLang.code.toUpperCase()}
+            </button>
+            <div className={`lang-menu ${langOpen ? 'open' : ''}`}>
+              {LANGS.map(l => (
+                <button key={l.code} className={`lang-opt ${l.code === lang ? 'active' : ''}`}
+                  onClick={() => { onLangChange(l.code); setLangOpen(false); }}>
+                  <span>{l.flag}</span> {l.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* CTA — hidden on mobile via class */}
+          <button className="nav-cta-desktop" onClick={onBuild} style={{
+            padding: "10px 22px", borderRadius: 50, fontSize: 14, fontWeight: 500,
+            background: "var(--charcoal)", color: "var(--cream)", border: "none",
+            cursor: "pointer", fontFamily: "var(--font-body)",
+            transition: "all 0.3s var(--ease-out)",
+          }}
+            onMouseEnter={e => e.currentTarget.style.background = "var(--gold)"}
+            onMouseLeave={e => e.currentTarget.style.background = "var(--charcoal)"}
+          >{cs.tr('getStarted')}</button>
+
+          {/* Hamburger */}
+          <button className={`hamburger ${menuOpen ? 'open' : ''}`} onClick={() => setMenuOpen(o => !o)} aria-label="Menu">
+            <span/><span/><span/>
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile slide-down menu */}
+      <div className={`nav-mobile-menu ${menuOpen ? 'open' : ''}`}>
+        <button onClick={() => { onBuild(); setMenuOpen(false); }} style={{
+          padding: "14px 40px", borderRadius: 50, fontSize: 16, fontWeight: 500,
+          background: "var(--charcoal)", color: "var(--cream)", border: "none",
+          cursor: "pointer", fontFamily: "var(--font-body)",
+        }}>{cs.tr('getStarted')}</button>
+      </div>
+    </>
+  );
+};
+
+/* Footer */
+const Footer = () => {
+  const cs = window.__CS;
+  return (
+    <footer style={{
+      padding: "48px 32px", background: "var(--charcoal)", textAlign: "center",
+      borderTop: "1px solid rgba(184,149,106,0.15)"
+    }}>
+      <div style={{ fontFamily: "var(--font-display)", fontSize: 20, color: "var(--cream)", marginBottom: 8 }}>
+        Coach<span style={{ color: "var(--gold)" }}>Start</span>
+      </div>
+      <div style={{ fontSize: 13, color: "rgba(253,252,250,0.35)" }}>
+        {cs.tr('footerTag')} {cs.tr('footerYear')}
+      </div>
+    </footer>
+  );
+};
+
+Object.assign(window, {
+  HeroSection, StuckSection, MethodSection, ToolsSection,
+  TransformSection, TimelineSection, CTASection, Nav, Footer, Reveal
+});
+</script>
+<!-- flows.jsx -->
+<script type="text/babel">
+/* Interactive flows: onboarding, walkthrough, problem details, method steps, tool demos, booking */
+
+/* ==================== SHARED MODAL SHELL ==================== */
+const Modal = ({ open, onClose, children, wide }) => (
+  <div className={`modal-overlay ${open ? "active" : ""}`} onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
+    <div className="modal-content" style={wide ? { maxWidth: 780 } : {}}>
+      <button onClick={onClose} style={{
+        position: "absolute", top: 16, right: 20, background: "none", border: "none",
+        fontSize: 24, color: "var(--text-muted)", cursor: "pointer", lineHeight: 1,
+      }}>×</button>
+      {children}
+    </div>
+  </div>
+);
+
+/* ==================== ONBOARDING FLOW ==================== */
+const OnboardingFlow = ({ open, onClose }) => {
+  const [step, setStep] = React.useState(0);
+  const [answers, setAnswers] = React.useState({ who: "", audience: "", result: "" });
+  const [generating, setGenerating] = React.useState(false);
+  const [done, setDone] = React.useState(false);
+
+  React.useEffect(() => { if (open) { setStep(0); setAnswers({ who: "", audience: "", result: "" }); setGenerating(false); setDone(false); } }, [open]);
+
+  const steps = [
+    { key: "who", label: "Who are you?", placeholder: "e.g. I'm a mindset coach with 8 years of experience in cognitive behavioral techniques...", hint: "Tell us about your background, expertise, and what drives your coaching practice." },
+    { key: "audience", label: "Who do you help?", placeholder: "e.g. Ambitious professionals in their 30s–40s who feel stuck in their careers...", hint: "Describe your ideal client — their situation, struggles, and aspirations." },
+    { key: "result", label: "What result do you deliver?", placeholder: "e.g. Clients gain clarity on their next career move and build confidence to pursue it within 90 days...", hint: "What transformation can a client expect? Be specific about the outcome." },
+  ];
+
+  const handleNext = () => {
+    if (step < 2) setStep(step + 1);
+    else {
+      setGenerating(true);
+      setTimeout(() => { setGenerating(false); setDone(true); }, 3000);
+    }
+  };
+
+  const cur = steps[step];
+
+  return (
+    <Modal open={open} onClose={onClose}>
+      {!done ? (
+        <div>
+          {/* Progress */}
+          <div style={{ display: "flex", gap: 8, marginBottom: 32 }}>
+            {[0,1,2].map(i => (
+              <div key={i} style={{
+                height: 3, flex: 1, borderRadius: 2,
+                background: i <= step ? "var(--gold)" : "var(--sand)",
+                transition: "background 0.4s var(--ease-out)",
+              }}></div>
+            ))}
+          </div>
+          <div style={{
+            fontSize: 12, letterSpacing: 3, textTransform: "uppercase",
+            color: "var(--gold)", marginBottom: 12
+          }}>Step {step + 1} of 3</div>
+          <h3 style={{
+            fontFamily: "var(--font-display)", fontSize: 28, color: "var(--charcoal)", marginBottom: 8
+          }}>{cur.label}</h3>
+          <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 24, lineHeight: 1.6 }}>{cur.hint}</p>
+
+          {generating ? (
+            <div style={{ textAlign: "center", padding: "40px 0" }}>
+              <div style={{ display: "inline-block", position: "relative", width: 48, height: 48 }}>
+                <div style={{
+                  width: 48, height: 48, border: "3px solid var(--sand)", borderTopColor: "var(--gold)",
+                  borderRadius: "50%", animation: "spin 0.8s linear infinite"
+                }}></div>
+              </div>
+              <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+              <p style={{ marginTop: 16, fontSize: 15, color: "var(--text-muted)" }}>Building your coaching page...</p>
+            </div>
+          ) : (
+            <>
+              <textarea
+                value={answers[cur.key]}
+                onChange={e => setAnswers({ ...answers, [cur.key]: e.target.value })}
+                placeholder={cur.placeholder}
+                style={{
+                  width: "100%", minHeight: 140, padding: 20, borderRadius: 14,
+                  border: "1.5px solid var(--sand)", background: "var(--cream)",
+                  fontSize: 16, fontFamily: "var(--font-body)", color: "var(--text)",
+                  lineHeight: 1.6, resize: "vertical", outline: "none",
+                  transition: "border-color 0.3s",
+                }}
+                onFocus={e => e.target.style.borderColor = "var(--gold)"}
+                onBlur={e => e.target.style.borderColor = "var(--sand)"}
+              ></textarea>
+              <div style={{ display: "flex", justifyContent: "space-between", marginTop: 20 }}>
+                {step > 0 && (
+                  <button onClick={() => setStep(step - 1)} style={{
+                    padding: "12px 24px", borderRadius: 50, background: "transparent",
+                    border: "1.5px solid var(--sand)", fontSize: 15, cursor: "pointer",
+                    fontFamily: "var(--font-body)", color: "var(--text-muted)",
+                  }}>← Back</button>
+                )}
+                <button onClick={handleNext} style={{
+                  marginLeft: "auto", padding: "12px 28px", borderRadius: 50,
+                  background: answers[cur.key].trim() ? "var(--charcoal)" : "var(--sand)",
+                  color: answers[cur.key].trim() ? "var(--cream)" : "var(--text-muted)",
+                  border: "none", fontSize: 15, cursor: "pointer", fontFamily: "var(--font-body)",
+                  fontWeight: 500, transition: "all 0.3s var(--ease-out)",
+                }}>{step < 2 ? "Continue →" : "Generate my page →"}</button>
+              </div>
+            </>
+          )}
+        </div>
+      ) : (
+        <GeneratedPage answers={answers} onClose={onClose} />
+      )}
+    </Modal>
+  );
+};
+
+/* Generated coaching page preview */
+const GeneratedPage = ({ answers, onClose }) => (
+  <div>
+    <div style={{
+      textAlign: "center", marginBottom: 32,
+      fontSize: 12, letterSpacing: 3, textTransform: "uppercase", color: "var(--gold)"
+    }}>Your coaching page</div>
+    <div style={{
+      borderRadius: 14, overflow: "hidden", border: "1px solid var(--sand)",
+      background: "var(--cream)"
+    }}>
+      {/* Mock page header */}
+      <div style={{ padding: "48px 32px", textAlign: "center", background: "var(--charcoal)" }}>
+        <div style={{
+          width: 56, height: 56, borderRadius: "50%", margin: "0 auto 16px",
+          background: "linear-gradient(135deg, var(--gold), var(--gold-light))",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          fontSize: 24, color: "var(--charcoal)"
+        }}>★</div>
+        <h3 style={{ fontFamily: "var(--font-display)", fontSize: 24, color: "var(--cream)", marginBottom: 8 }}>
+          {answers.who.split(" ").slice(0, 4).join(" ") || "Your Name"}
+        </h3>
+        <p style={{ fontSize: 14, color: "rgba(253,252,250,0.6)" }}>
+          Helping {answers.audience.split(" ").slice(0, 6).join(" ") || "your ideal clients"}
+        </p>
+      </div>
+      {/* Mock sections */}
+      <div style={{ padding: 32 }}>
+        <div style={{ marginBottom: 24 }}>
+          <div style={{ fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "var(--gold)", marginBottom: 6 }}>The transformation</div>
+          <p style={{ fontSize: 15, color: "var(--text)", lineHeight: 1.6 }}>
+            {answers.result || "Your clients achieve meaningful, lasting change."}
+          </p>
+        </div>
+        <button style={{
+          width: "100%", padding: "14px", borderRadius: 50, background: "var(--charcoal)",
+          color: "var(--cream)", border: "none", fontSize: 15, cursor: "pointer",
+          fontFamily: "var(--font-body)", fontWeight: 500,
+        }}>Book a session →</button>
+      </div>
+    </div>
+    <div style={{ marginTop: 24, textAlign: "center" }}>
+      <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 16 }}>
+        This is a preview. In the full system, you'd customize every section.
+      </p>
+      <button onClick={onClose} style={{
+        padding: "12px 28px", borderRadius: 50, background: "var(--gold)",
+        color: "var(--white)", border: "none", fontSize: 15, cursor: "pointer",
+        fontFamily: "var(--font-body)", fontWeight: 500,
+      }}>Continue exploring →</button>
+    </div>
+  </div>
+);
+
+/* ==================== WALKTHROUGH ==================== */
+const WalkthroughFlow = ({ open, onClose }) => {
+  const [step, setStep] = React.useState(0);
+  React.useEffect(() => { if (open) setStep(0); }, [open]);
+
+  const steps = [
+    { title: "Start with who you are", desc: "We ask a few focused questions about your background, expertise, and approach. No fluff — just the essentials that make you unique.", visual: "identity" },
+    { title: "Define your ideal client", desc: "Get specific about who you serve best. The clearer your niche, the more magnetic your messaging becomes.", visual: "audience" },
+    { title: "Craft your message", desc: "We help you articulate your value in words that resonate. Headlines, bios, and a core proposition — ready to use.", visual: "message" },
+    { title: "Build your page", desc: "Everything comes together on one powerful coaching page — with a clear path from first visit to booked session.", visual: "page" },
+  ];
+  const s = steps[step];
+
+  const colors = { identity: "#B8956A", audience: "#D4B896", message: "#9A7B55", page: "#B8956A" };
+
+  return (
+    <Modal open={open} onClose={onClose} wide>
+      <div style={{ display: "flex", gap: 8, marginBottom: 28 }}>
+        {steps.map((_, i) => (
+          <button key={i} onClick={() => setStep(i)} style={{
+            height: 3, flex: 1, borderRadius: 2, border: "none", cursor: "pointer",
+            background: i <= step ? "var(--gold)" : "var(--sand)", transition: "background 0.3s",
+          }}></button>
+        ))}
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "center" }}>
+        <div>
+          <div style={{ fontSize: 12, letterSpacing: 3, textTransform: "uppercase", color: "var(--gold)", marginBottom: 12 }}>
+            Step {step + 1} of 4
+          </div>
+          <h3 style={{ fontFamily: "var(--font-display)", fontSize: 26, color: "var(--charcoal)", marginBottom: 12 }}>{s.title}</h3>
+          <p style={{ fontSize: 15, color: "var(--text-muted)", lineHeight: 1.7, marginBottom: 28 }}>{s.desc}</p>
+          <div style={{ display: "flex", gap: 12 }}>
+            {step > 0 && (
+              <button onClick={() => setStep(step - 1)} style={{
+                padding: "10px 20px", borderRadius: 50, background: "transparent",
+                border: "1.5px solid var(--sand)", fontSize: 14, cursor: "pointer",
+                fontFamily: "var(--font-body)", color: "var(--text-muted)",
+              }}>← Back</button>
+            )}
+            <button onClick={() => step < 3 ? setStep(step + 1) : onClose()} style={{
+              padding: "10px 24px", borderRadius: 50, background: "var(--charcoal)",
+              color: "var(--cream)", border: "none", fontSize: 14, cursor: "pointer",
+              fontFamily: "var(--font-body)", fontWeight: 500,
+            }}>{step < 3 ? "Next →" : "Got it →"}</button>
+          </div>
+        </div>
+        {/* Visual */}
+        <div style={{
+          aspectRatio: "1", borderRadius: 16, background: "var(--charcoal)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          position: "relative", overflow: "hidden"
+        }}>
+          <div style={{ textAlign: "center" }}>
+            <div style={{
+              width: 64, height: 64, borderRadius: 16, margin: "0 auto 14px",
+              background: `${colors[s.visual]}20`, border: `1.5px solid ${colors[s.visual]}40`,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontFamily: "var(--font-display)", fontSize: 24, color: colors[s.visual]
+            }}>0{step + 1}</div>
+            <div style={{ fontSize: 14, color: "rgba(253,252,250,0.6)" }}>{s.title}</div>
+          </div>
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+/* ==================== PROBLEM DETAIL ==================== */
+const ProblemDetail = ({ open, onClose, problem }) => {
+  if (!problem) return null;
+  const solutions = {
+    "Unclear niche": [
+      "Use the 'Who do I serve best?' framework to narrow your focus",
+      "Identify your top 3 successful clients and find the common thread",
+      "Write a niche statement: I help [specific person] achieve [specific result]",
+      "Test your positioning by asking: would my ideal client feel personally called out?"
+    ],
+    "Weak messaging": [
+      "Lead with the transformation, not your credentials",
+      "Use your client's language, not industry jargon",
+      "Structure every message: Problem → Approach → Result",
+      "A/B test your headline with 5 potential clients"
+    ],
+    "Inconsistent presence": [
+      "Create a single brand document with your colors, voice, and key phrases",
+      "Audit every platform — does your bio tell the same story?",
+      "Use one professional photo everywhere",
+      "Set up a monthly brand consistency check"
+    ],
+    "No clear booking path": [
+      "Add a single, clear CTA above the fold",
+      "Remove friction: name, email, preferred time — that's it",
+      "Offer a free 15-minute clarity call as the entry point",
+      "Follow up within 24 hours — automated confirmation + personal note"
+    ]
+  };
+
+  return (
+    <Modal open={open} onClose={onClose}>
+      <div style={{
+        width: 48, height: 48, borderRadius: 12, marginBottom: 20,
+        background: "rgba(184,149,106,0.1)", border: "1px solid rgba(184,149,106,0.2)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        fontSize: 20, color: "var(--gold)"
+      }}>{problem.icon}</div>
+      <h3 style={{ fontFamily: "var(--font-display)", fontSize: 26, color: "var(--charcoal)", marginBottom: 8 }}>
+        {problem.title}
+      </h3>
+      <p style={{ fontSize: 15, color: "var(--text-muted)", lineHeight: 1.7, marginBottom: 28 }}>
+        {problem.desc}
+      </p>
+      <div style={{ fontSize: 12, letterSpacing: 2, textTransform: "uppercase", color: "var(--gold)", marginBottom: 16 }}>
+        How to fix it
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        {(solutions[problem.title] || []).map((s, i) => (
+          <div key={i} style={{
+            display: "flex", gap: 12, alignItems: "flex-start",
+            padding: 16, borderRadius: 12,
+            background: "var(--cream)", border: "1px solid var(--sand)",
+          }}>
+            <div style={{
+              width: 24, height: 24, borderRadius: 7, flexShrink: 0,
+              background: "rgba(184,149,106,0.12)", display: "flex",
+              alignItems: "center", justifyContent: "center",
+              fontSize: 12, color: "var(--gold)", fontWeight: 600
+            }}>{i + 1}</div>
+            <div style={{ fontSize: 14, color: "var(--text)", lineHeight: 1.6 }}>{s}</div>
+          </div>
+        ))}
+      </div>
+    </Modal>
+  );
+};
+
+/* ==================== METHOD STEP DETAIL ==================== */
+const MethodStepDetail = ({ open, onClose, step }) => {
+  if (!step) return null;
+  const guides = {
+    "01": {
+      exercises: ["Write your coaching origin story in 100 words", "List 5 clients you loved working with — what do they have in common?", "Complete: 'I help _____ to _____'"],
+      example: "Sarah, a burnout recovery coach, went from 'I help people feel better' to 'I help tech leaders in their 30s recover from burnout and redesign their relationship with work.'"
+    },
+    "02": {
+      exercises: ["Write 3 headlines for your page — which stops the scroll?", "Record yourself explaining what you do to a friend. Transcribe it.", "Fill in: My clients come to me feeling _____. They leave feeling _____."],
+      example: "Marcus refined his message from 'Executive coaching services' to 'The leadership clarity program for new VPs who want to earn trust fast.'"
+    },
+    "03": {
+      exercises: ["Audit your LinkedIn, website, and Instagram — are they telling the same story?", "Choose 3 content pillars that reflect your expertise", "Create a 30-day content calendar using your pillars"],
+      example: "Priya unified her presence around 'calm leadership' — same bio structure, same photo style, same color palette across everything."
+    },
+    "04": {
+      exercises: ["Map the journey: Discovery → Interest → Trust → Book → Transform", "Identify your biggest drop-off point", "Write the confirmation email a client gets after booking"],
+      example: "James added a single 'Book a free 15-min call' button and saw inquiries jump 4x in the first month."
+    }
+  };
+  const guide = guides[step.num] || { exercises: [], example: "" };
+
+  return (
+    <Modal open={open} onClose={onClose} wide>
+      <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 24 }}>
+        <div style={{
+          fontFamily: "var(--font-display)", fontSize: 32, color: "var(--gold)"
+        }}>{step.num}</div>
+        <div>
+          <h3 style={{ fontFamily: "var(--font-display)", fontSize: 24, color: "var(--charcoal)" }}>{step.title}</h3>
+          <p style={{ fontSize: 14, color: "var(--text-muted)" }}>{step.desc}</p>
+        </div>
+      </div>
+      <div style={{
+        padding: 20, borderRadius: 14, background: "var(--cream)", border: "1px solid var(--sand)",
+        marginBottom: 24
+      }}>
+        <div style={{ fontSize: 12, letterSpacing: 2, textTransform: "uppercase", color: "var(--gold)", marginBottom: 12 }}>
+          Output
+        </div>
+        <div style={{ fontSize: 15, color: "var(--charcoal)", fontWeight: 500 }}>{step.output}</div>
+      </div>
+      <div style={{ fontSize: 12, letterSpacing: 2, textTransform: "uppercase", color: "var(--gold)", marginBottom: 16 }}>
+        Guided exercises
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
+        {guide.exercises.map((ex, i) => (
+          <div key={i} style={{
+            padding: 16, borderRadius: 12, background: "var(--cream)", border: "1px solid var(--sand)",
+            fontSize: 14, color: "var(--text)", lineHeight: 1.6,
+            display: "flex", gap: 12, alignItems: "flex-start"
+          }}>
+            <div style={{
+              width: 22, height: 22, borderRadius: 6, flexShrink: 0,
+              background: "rgba(184,149,106,0.1)", display: "flex",
+              alignItems: "center", justifyContent: "center",
+              fontSize: 11, color: "var(--gold)", fontWeight: 600
+            }}>{i + 1}</div>
+            {ex}
+          </div>
+        ))}
+      </div>
+      <div style={{
+        padding: 20, borderRadius: 14, background: "rgba(184,149,106,0.06)",
+        border: "1px solid rgba(184,149,106,0.15)"
+      }}>
+        <div style={{ fontSize: 12, letterSpacing: 2, textTransform: "uppercase", color: "var(--gold)", marginBottom: 8 }}>
+          Real example
+        </div>
+        <p style={{ fontSize: 14, color: "var(--text)", lineHeight: 1.7, fontStyle: "italic" }}>{guide.example}</p>
+      </div>
+    </Modal>
+  );
+};
+
+/* ==================== TOOL DEMO ==================== */
+const ToolDemo = ({ open, onClose, tool }) => {
+  if (!tool) return null;
+  const [input, setInput] = React.useState("");
+  const [output, setOutput] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+
+  React.useEffect(() => { if (open) { setInput(""); setOutput(""); setLoading(false); } }, [open, tool]);
+
+  const demos = {
+    brand: { prompt: "Describe your coaching style in 3 words:", outputGen: (v) => `Brand keywords: ${v}\n\nSuggested palette: Warm golds, soft creams, charcoal anchors\nVoice: Confident yet warm, direct but empathetic\nFont style: Modern serif headlines, clean sans body` },
+    messaging: { prompt: "What's the #1 problem your clients face?", outputGen: (v) => `Headline options:\n1. "Stop ${v.toLowerCase()} — start leading with clarity"\n2. "The ${v.toLowerCase()} ends here"\n3. "From ${v.toLowerCase()} to confident action"\n\nValue prop: You help people move past ${v.toLowerCase()} into a place of clarity and purpose.` },
+    content: { prompt: "What topics do you teach most often?", outputGen: (v) => `Content pillars based on "${v}":\n\n1. Educational — Break down your methodology\n2. Story — Share client transformations\n3. Insight — Your unique perspective on the field\n\n30-day starter: 3 posts/week, rotating pillars` },
+    story: { prompt: "What moment made you decide to become a coach?", outputGen: (v) => `Your origin story framework:\n\nThe Turning Point: "${v}"\nThe Journey: What you learned and how it shaped your approach\nThe Mission: Why you now help others with this\n\nThis becomes the "About" section of your page.` },
+    journey: { prompt: "Where do most of your clients find you?", outputGen: (v) => `Client journey from "${v}":\n\n${v} → Your page → Read your story → See the transformation → Book free call → Discovery session → Paid program\n\nKey insight: Add a lead magnet between discovery and booking to build trust.` },
+  };
+
+  const demo = demos[tool.id] || demos.brand;
+
+  const handleGenerate = () => {
+    if (!input.trim()) return;
+    setLoading(true);
+    setTimeout(() => { setOutput(demo.outputGen(input)); setLoading(false); }, 1500);
+  };
+
+  return (
+    <Modal open={open} onClose={onClose} wide>
+      <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 24 }}>
+        <div style={{
+          width: 44, height: 44, borderRadius: 11, flexShrink: 0,
+          background: "rgba(184,149,106,0.1)", border: "1px solid rgba(184,149,106,0.2)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          fontSize: 18, color: "var(--gold)"
+        }}>{tool.icon}</div>
+        <div>
+          <h3 style={{ fontFamily: "var(--font-display)", fontSize: 24, color: "var(--charcoal)" }}>{tool.title}</h3>
+          <p style={{ fontSize: 14, color: "var(--text-muted)" }}>{tool.desc}</p>
+        </div>
+      </div>
+
+      <div style={{ marginBottom: 20 }}>
+        <label style={{ fontSize: 14, fontWeight: 500, color: "var(--charcoal)", display: "block", marginBottom: 8 }}>
+          {demo.prompt}
+        </label>
+        <div style={{ display: "flex", gap: 10 }}>
+          <input value={input} onChange={e => setInput(e.target.value)}
+            onKeyDown={e => e.key === "Enter" && handleGenerate()}
+            placeholder="Type your answer..."
+            style={{
+              flex: 1, padding: "12px 16px", borderRadius: 12,
+              border: "1.5px solid var(--sand)", background: "var(--cream)",
+              fontSize: 15, fontFamily: "var(--font-body)", color: "var(--text)", outline: "none",
+            }}
+          />
+          <button onClick={handleGenerate} style={{
+            padding: "12px 20px", borderRadius: 12, background: "var(--charcoal)",
+            color: "var(--cream)", border: "none", fontSize: 14, cursor: "pointer",
+            fontFamily: "var(--font-body)", fontWeight: 500, whiteSpace: "nowrap",
+          }}>Generate →</button>
+        </div>
+      </div>
+
+      {loading && (
+        <div style={{ textAlign: "center", padding: "32px 0" }}>
+          <div style={{
+            width: 36, height: 36, border: "2px solid var(--sand)", borderTopColor: "var(--gold)",
+            borderRadius: "50%", animation: "spin 0.8s linear infinite", display: "inline-block"
+          }}></div>
+          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        </div>
+      )}
+
+      {output && !loading && (
+        <div style={{
+          padding: 24, borderRadius: 14, background: "var(--cream)", border: "1px solid var(--sand)",
+          whiteSpace: "pre-wrap", fontSize: 14, color: "var(--text)", lineHeight: 1.7,
+          fontFamily: "var(--font-body)"
+        }}>{output}</div>
+      )}
+    </Modal>
+  );
+};
+
+/* ==================== BOOKING FLOW ==================== */
+const BookingFlow = ({ open, onClose }) => {
+  const [form, setForm] = React.useState({ name: "", email: "", time: "" });
+  const [submitted, setSubmitted] = React.useState(false);
+  React.useEffect(() => { if (open) { setForm({ name: "", email: "", time: "" }); setSubmitted(false); } }, [open]);
+
+  const times = ["Mon 10:00 AM", "Tue 2:00 PM", "Wed 11:00 AM", "Thu 3:00 PM", "Fri 10:00 AM"];
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (form.name && form.email && form.time) setSubmitted(true);
+  };
+
+  return (
+    <Modal open={open} onClose={onClose}>
+      {!submitted ? (
+        <form onSubmit={handleSubmit}>
+          <div style={{
+            fontSize: 12, letterSpacing: 3, textTransform: "uppercase",
+            color: "var(--gold)", marginBottom: 12
+          }}>Book a call</div>
+          <h3 style={{
+            fontFamily: "var(--font-display)", fontSize: 26, color: "var(--charcoal)", marginBottom: 8
+          }}>Talk to a human</h3>
+          <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 28, lineHeight: 1.6 }}>
+            15 minutes. No pitch. Just clarity on whether Coach Start is right for you.
+          </p>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <div>
+              <label style={{ fontSize: 13, fontWeight: 500, color: "var(--charcoal)", display: "block", marginBottom: 6 }}>Name</label>
+              <input value={form.name} onChange={e => setForm({...form, name: e.target.value})}
+                placeholder="Your name" style={{
+                  width: "100%", padding: "12px 16px", borderRadius: 12,
+                  border: "1.5px solid var(--sand)", background: "var(--cream)",
+                  fontSize: 15, fontFamily: "var(--font-body)", outline: "none",
+                }} />
+            </div>
+            <div>
+              <label style={{ fontSize: 13, fontWeight: 500, color: "var(--charcoal)", display: "block", marginBottom: 6 }}>Email</label>
+              <input value={form.email} onChange={e => setForm({...form, email: e.target.value})}
+                type="email" placeholder="you@email.com" style={{
+                  width: "100%", padding: "12px 16px", borderRadius: 12,
+                  border: "1.5px solid var(--sand)", background: "var(--cream)",
+                  fontSize: 15, fontFamily: "var(--font-body)", outline: "none",
+                }} />
+            </div>
+            <div>
+              <label style={{ fontSize: 13, fontWeight: 500, color: "var(--charcoal)", display: "block", marginBottom: 6 }}>Pick a time</label>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                {times.map(t => (
+                  <button type="button" key={t} onClick={() => setForm({...form, time: t})} style={{
+                    padding: "8px 16px", borderRadius: 20, fontSize: 13,
+                    background: form.time === t ? "var(--charcoal)" : "var(--cream)",
+                    color: form.time === t ? "var(--cream)" : "var(--text-muted)",
+                    border: `1px solid ${form.time === t ? "var(--charcoal)" : "var(--sand)"}`,
+                    cursor: "pointer", fontFamily: "var(--font-body)",
+                    transition: "all 0.2s",
+                  }}>{t}</button>
+                ))}
+              </div>
+            </div>
+          </div>
+          <button type="submit" style={{
+            width: "100%", marginTop: 24, padding: "14px", borderRadius: 50,
+            background: (form.name && form.email && form.time) ? "var(--charcoal)" : "var(--sand)",
+            color: (form.name && form.email && form.time) ? "var(--cream)" : "var(--text-muted)",
+            border: "none", fontSize: 16, cursor: "pointer",
+            fontFamily: "var(--font-body)", fontWeight: 500,
+            transition: "all 0.3s var(--ease-out)",
+          }}>Book my call →</button>
+        </form>
+      ) : (
+        <div style={{ textAlign: "center", padding: "20px 0" }}>
+          <div style={{
+            width: 56, height: 56, borderRadius: "50%", margin: "0 auto 20px",
+            background: "rgba(184,149,106,0.12)", border: "1.5px solid rgba(184,149,106,0.25)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: 24, color: "var(--gold)"
+          }}>✓</div>
+          <h3 style={{ fontFamily: "var(--font-display)", fontSize: 24, color: "var(--charcoal)", marginBottom: 8 }}>
+            You're booked, {form.name}
+          </h3>
+          <p style={{ fontSize: 15, color: "var(--text-muted)", lineHeight: 1.6, marginBottom: 8 }}>
+            {form.time} — we'll send a confirmation to {form.email}
+          </p>
+          <p style={{ fontSize: 14, color: "var(--text-light)" }}>
+            Check your inbox for a calendar invite and prep questions.
+          </p>
+          <button onClick={onClose} style={{
+            marginTop: 24, padding: "12px 28px", borderRadius: 50,
+            background: "var(--gold)", color: "var(--white)", border: "none",
+            fontSize: 15, cursor: "pointer", fontFamily: "var(--font-body)", fontWeight: 500,
+          }}>Done</button>
+        </div>
+      )}
+    </Modal>
+  );
+};
+
+Object.assign(window, {
+  Modal, OnboardingFlow, WalkthroughFlow, ProblemDetail,
+  MethodStepDetail, ToolDemo, BookingFlow
+});
+</script>
+<!-- app.jsx -->
+<script type="text/babel">
+/* Main App — wires sections + flows together */
+/* Capture real TweaksPanel from tweaks-panel.jsx before local const overwrites window.TweaksPanel */
+const _RealTweaksPanel = window.TweaksPanel;
+const _RealTweakSection = window.TweakSection;
+const _RealTweakColor = window.TweakColor;
+const _RealTweakToggle = window.TweakToggle;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accentColor": "#B8956A",
+  "darkSections": true,
+  "animationsEnabled": true
+}/*EDITMODE-END*/;
+
+const App = () => {
+  const [tweaks, setTweakState] = React.useState(TWEAK_DEFAULTS);
+  const setTweak = (keyOrObj, val) => {
+    const updates = typeof keyOrObj === "string" ? { [keyOrObj]: val } : keyOrObj;
+    setTweakState(prev => {
+      const next = { ...prev, ...updates };
+      window.parent.postMessage({ type: "__edit_mode_set_keys", edits: updates }, "*");
+      return next;
+    });
+  };
+
+  // Theme & language
+  const [theme, setTheme] = React.useState('light');
+  const [lang, setLang] = React.useState('en');
+
+  const toggleTheme = () => setTheme(t => t === 'light' ? 'dark' : 'light');
+  const changeLang = (code) => {
+    setLang(code);
+    window.__CS.lang = code;
+    // RTL for Hebrew
+    document.documentElement.dir = code === 'he' ? 'rtl' : 'ltr';
+    document.documentElement.lang = code;
+  };
+
+  // Apply theme attribute on root
+  React.useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    window.__CS.theme = theme;
+  }, [theme]);
+
+  // Modal states
+  const [showOnboarding, setShowOnboarding] = React.useState(false);
+  const [showWalkthrough, setShowWalkthrough] = React.useState(false);
+  const [showBooking, setShowBooking] = React.useState(false);
+  const [activeProblem, setActiveProblem] = React.useState(null);
+  const [activeStep, setActiveStep] = React.useState(null);
+  const [activeTool, setActiveTool] = React.useState(null);
+
+  return (
+    <div style={{
+      "--gold": tweaks.accentColor,
+      "--gold-light": tweaks.accentColor + "cc",
+      "--gold-dark": tweaks.accentColor,
+    }}>
+      <Nav
+        onBuild={() => setShowOnboarding(true)}
+        theme={theme} onThemeToggle={toggleTheme}
+        lang={lang} onLangChange={changeLang}
+      />
+
+      <HeroSection
+        onBuild={() => setShowOnboarding(true)}
+        onDemo={() => setShowWalkthrough(true)}
+      />
+      <StuckSection onExpandProblem={(p) => setActiveProblem(p)} />
+      <MethodSection onOpenStep={(s) => setActiveStep(s)} />
+      {tweaks.darkSections && (
+        <ToolsSection onOpenTool={(t) => setActiveTool(t)} />
+      )}
+      {!tweaks.darkSections && (
+        <ToolsSectionLight onOpenTool={(t) => setActiveTool(t)} />
+      )}
+      <TransformSection />
+      <TimelineSection />
+      <CTASection
+        onBuild={() => setShowOnboarding(true)}
+        onTalk={() => setShowBooking(true)}
+      />
+      <Footer />
+
+      {/* Modals */}
+      <OnboardingFlow open={showOnboarding} onClose={() => setShowOnboarding(false)} />
+      <WalkthroughFlow open={showWalkthrough} onClose={() => setShowWalkthrough(false)} />
+      <ProblemDetail open={!!activeProblem} onClose={() => setActiveProblem(null)} problem={activeProblem} />
+      <MethodStepDetail open={!!activeStep} onClose={() => setActiveStep(null)} step={activeStep} />
+      <ToolDemo open={!!activeTool} onClose={() => setActiveTool(null)} tool={activeTool} />
+      <BookingFlow open={showBooking} onClose={() => setShowBooking(false)} />
+
+      {/* Tweaks Panel */}
+      <TweaksPanel tweaks={tweaks} setTweak={setTweak} />
+    </div>
+  );
+};
+
+/* Light variant of tools section */
+const ToolsSectionLight = ({ onOpenTool }) => {
+  const cs = window.__CS;
+  const tools = [
+    { id: "brand", title: "Brand Builder", desc: "Define your visual identity, voice, and positioning in a guided workshop.", icon: "◆" },
+    { id: "messaging", title: "Messaging Engine", desc: "Generate headlines, bios, and value props from your coaching methodology.", icon: "◈" },
+    { id: "content", title: "Content Strategy", desc: "Map out content pillars, post frameworks, and a 30-day plan.", icon: "▣" },
+    { id: "story", title: "Personal Story", desc: "Craft your origin narrative — why you coach and what drives your work.", icon: "◉" },
+    { id: "journey", title: "Client Journey Map", desc: "Visualize every touchpoint from discovery to booking to transformation.", icon: "⬡" },
+  ];
+  return (
+    <section style={{ background: "var(--cream)" }}>
+      <div style={{ padding: "120px 0", maxWidth: 1200, margin: "0 auto", paddingLeft: 32, paddingRight: 32 }}>
+        <Reveal><div style={{ fontSize: 12, letterSpacing: 3, textTransform: "uppercase", color: "var(--gold)", fontWeight: 500, marginBottom: 16 }}>{cs.tr('toolsTag')}</div></Reveal>
+        <Reveal delay={0.05}><h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(32px, 5vw, 52px)", lineHeight: 1.15, color: "var(--charcoal)", marginBottom: 20 }}>{cs.tr('toolsH2')}</h2></Reveal>
+        <Reveal delay={0.1}><p style={{ fontSize: 18, lineHeight: 1.7, color: "var(--text-muted)", maxWidth: 560, marginBottom: 48 }}>{cs.tr('toolsBody')}</p></Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+          {tools.map((tool, i) => (
+            <Reveal key={tool.id} delay={0.15 + i * 0.06}>
+              <button onClick={() => onOpenTool(tool)} style={{
+                padding: 24, borderRadius: 14, textAlign: "left", width: "100%",
+                background: "var(--white)", border: "1px solid var(--sand)",
+                cursor: "pointer", fontFamily: "var(--font-body)",
+                transition: "all 0.3s var(--ease-out)",
+                gridColumn: i === 4 ? "2 / 3" : "auto",
+              }}
+                onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.06)"; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; }}
+              >
+                <div style={{ fontSize: 20, color: "var(--gold)", marginBottom: 10 }}>{tool.icon}</div>
+                <div style={{ fontWeight: 600, fontSize: 16, color: "var(--charcoal)", marginBottom: 6 }}>{tool.title}</div>
+                <div style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.5 }}>{tool.desc}</div>
+              </button>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* Tweaks Panel */
+const TweaksPanel = ({ tweaks, setTweak }) => {
+  return (
+    <_RealTweaksPanel>
+      <_RealTweakSection label="Brand">
+        <_RealTweakColor label="Accent color" value={tweaks.accentColor}
+          options={["#B8956A", "#7B8F6A", "#6A8FB8", "#B86A8F", "#8F6AB8"]}
+          onChange={v => setTweak("accentColor", v)} />
+      </_RealTweakSection>
+      <_RealTweakSection label="Layout">
+        <_RealTweakToggle label="Dark tools section" value={tweaks.darkSections}
+          onChange={v => setTweak("darkSections", v)} />
+        <_RealTweakToggle label="Animations" value={tweaks.animationsEnabled}
+          onChange={v => setTweak("animationsEnabled", v)} />
+      </_RealTweakSection>
+    </_RealTweaksPanel>
+  );
+};
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+</script>
+</body>
+</html>
