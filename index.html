@@ -137,6 +137,18 @@ body { font-family: var(--font-body); color: var(--text); background: var(--crea
 [data-theme="dark"] .micro-anim { box-shadow: 0 12px 40px rgba(0,0,0,0.45); }
 @media (max-width: 600px) { .micro-anim { min-height: 240px; aspect-ratio: 4/3; } }
 
+/* Animation containers stretch to fill their grid cell so left+right columns align top/bottom */
+.anim-fill {
+  align-self: stretch;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+}
+[data-theme="dark"] .anim-fill { box-shadow: 0 18px 56px rgba(0,0,0,0.55); }
+.anim-wrap { display: flex; align-items: stretch; height: 100%; width: 100%; }
+.anim-wrap > * { width: 100%; }
+@media (max-width: 600px) {
+  .anim-fill { min-height: 260px !important; aspect-ratio: 4/3 !important; }
+}
+
 /* ── Mobile Nav ──────────────────────────────────────────────── */
 .nav-mobile-menu {
   position: fixed; inset: 0; top: 64px; z-index: 99;
@@ -1291,8 +1303,8 @@ const HeroBrandAnim = () => {
   const revealed = Math.min(t, 1);
 
   return (
-    <div ref={ref} style={{
-      width: "100%", aspectRatio: "16/9", borderRadius: 16, overflow: "hidden",
+    <div ref={ref} className="anim-fill" style={{
+      width: "100%", height: "100%", minHeight: 360, aspectRatio: "16/9", borderRadius: 16, overflow: "hidden",
       background: "linear-gradient(150deg, #1E1C19 0%, #2A2622 50%, #332F2A 100%)",
       display: "flex", alignItems: "center", justifyContent: "center",
       position: "relative", fontFamily: "var(--font-display)"
@@ -1315,21 +1327,21 @@ const HeroBrandAnim = () => {
           );
         })}
       </div>
-      <div style={{ textAlign: "center", position: "relative", zIndex: 1, padding: "0 24px" }}>
+      <div style={{ textAlign: "center", position: "relative", zIndex: 1, padding: "0 28px" }}>
         <div style={{
-          fontSize: 12, letterSpacing: 4, textTransform: "uppercase",
-          color: "rgba(184,149,106,0.85)", marginBottom: 18, fontWeight: 600,
+          fontSize: 14, letterSpacing: 4, textTransform: "uppercase",
+          color: "rgba(212,184,150,0.95)", marginBottom: 22, fontWeight: 600,
           opacity: easeRev(Math.max(0, (revealed - 0.04) * 5)),
           transform: `translateY(${lerp(14, 0, easeRev(Math.max(0, (revealed - 0.04) * 5)))}px)`
         }}>{cs.tr('animBrand')}</div>
-        <div style={{ display: "flex", gap: 20, justifyContent: "center", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: 22, justifyContent: "center", flexWrap: "wrap" }}>
           {words.map((w, i) => {
             const delay = 0.12 + i * 0.1;
             const wt = easeRev(Math.max(0, (revealed - delay) * 3.5));
             const float = t > 0.6 ? breathe(t - 0.6 + i * 0.25, 0.2, 3) : 0;
             return (
               <span key={i} style={{
-                fontSize: "clamp(20px, 3.5vw, 30px)", color: colors[i],
+                fontSize: "clamp(24px, 4vw, 34px)", color: colors[i],
                 opacity: lerp(0, 1, wt),
                 transform: `translateY(${lerp(22, float, wt)}px) scale(${lerp(0.88, 1, wt)})`,
                 display: "inline-block",
@@ -1339,16 +1351,16 @@ const HeroBrandAnim = () => {
         </div>
         {/* Divider line */}
         <div style={{
-          height: 1.5,
-          width: `${lerp(0, 260, easeRev(Math.max(0, (revealed - 0.52) * 3)))}px`,
-          background: "linear-gradient(90deg, transparent, #B8956A, transparent)",
-          margin: "22px auto 18px",
+          height: 2.5, borderRadius: 2,
+          width: `${lerp(0, 280, easeRev(Math.max(0, (revealed - 0.52) * 3)))}px`,
+          background: "linear-gradient(90deg, transparent, #D4B896, transparent)",
+          margin: "26px auto 20px",
         }} />
         <div style={{
-          fontSize: "clamp(13px, 2vw, 17px)", color: "rgba(253,252,250,0.85)",
+          fontSize: "clamp(15px, 2.2vw, 19px)", color: "rgba(253,252,250,0.95)",
           opacity: easeRev(Math.max(0, (revealed - 0.68) * 4)),
           transform: `translateY(${lerp(10, 0, easeRev(Math.max(0, (revealed - 0.68) * 4)))}px)`,
-          fontStyle: "italic",
+          fontStyle: "italic", fontFamily: "var(--font-body)",
         }}>{cs.tr('animOnePage')}</div>
       </div>
     </div>
@@ -1371,19 +1383,19 @@ const StuckAnim = () => {
   const revealed = Math.min(t, 1);
 
   return (
-    <div ref={ref} style={{
-      width: "100%", aspectRatio: "16/9", borderRadius: 16, overflow: "hidden",
+    <div ref={ref} className="anim-fill" style={{
+      width: "100%", height: "100%", minHeight: 360, aspectRatio: "16/9", borderRadius: 16, overflow: "hidden",
       background: "linear-gradient(150deg, #1E1C19, #2A2622, #332F2A)", position: "relative"
     }}>
       {/* Central coach node */}
       <div style={{
         position: "absolute", left: "50%", top: "50%",
         transform: `translate(-50%, -50%) scale(${easeRev(revealed * 5)})`,
-        width: 58, height: 58, borderRadius: "50%",
-        background: "rgba(184,149,106,0.12)", border: "2px solid rgba(184,149,106,0.28)",
+        width: 70, height: 70, borderRadius: "50%",
+        background: "rgba(184,149,106,0.16)", border: "2.5px solid rgba(184,149,106,0.45)",
         display: "flex", alignItems: "center", justifyContent: "center",
-        fontSize: 22, color: "rgba(184,149,106,0.55)",
-        boxShadow: `0 0 ${lerp(0, 24, easeRev(revealed * 4))}px rgba(184,149,106,0.08)`,
+        fontSize: 26, color: "rgba(184,149,106,0.85)",
+        boxShadow: `0 0 ${lerp(0, 32, easeRev(revealed * 4))}px rgba(184,149,106,0.18)`,
         opacity: easeRev(revealed * 5),
       }}>●</div>
       {/* Problem nodes */}
@@ -1398,12 +1410,12 @@ const StuckAnim = () => {
             opacity: lerp(0, 1, pt), textAlign: "center",
           }}>
             <div style={{
-              width: 44, height: 44, borderRadius: 12,
-              background: "rgba(184,149,106,0.10)", border: "1px solid rgba(184,149,106,0.22)",
+              width: 56, height: 56, borderRadius: 14,
+              background: "rgba(184,149,106,0.16)", border: "1.5px solid rgba(184,149,106,0.4)",
               display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: 18, color: "#B8956A", margin: "0 auto 5px",
+              fontSize: 22, color: "#D4B896", margin: "0 auto 8px",
             }}>{p.icon}</div>
-            <div style={{ fontSize: 12, color: "rgba(253,252,250,0.85)", whiteSpace: "nowrap", fontWeight: 500 }}>{cs.tr(p.labelKey)}</div>
+            <div style={{ fontSize: 14, color: "rgba(253,252,250,0.95)", whiteSpace: "nowrap", fontWeight: 500 }}>{cs.tr(p.labelKey)}</div>
           </div>
         );
       })}
@@ -1413,8 +1425,8 @@ const StuckAnim = () => {
           const lt = easeRev(Math.max(0, (revealed - 0.3 - i * 0.09) * 2.2));
           return (
             <line key={i} x1="50%" y1="50%" x2={`${p.x}%`} y2={`${p.y}%`}
-              stroke="rgba(184,149,106,0.12)" strokeWidth="1"
-              strokeDasharray="4 4" opacity={lt}
+              stroke="rgba(184,149,106,0.45)" strokeWidth="2.5"
+              strokeDasharray="6 5" opacity={lt}
             />
           );
         })}
@@ -1439,10 +1451,10 @@ const MethodAnim = () => {
   const revealed = Math.min(t, 1);
 
   return (
-    <div ref={ref} style={{
-      width: "100%", aspectRatio: "16/9", borderRadius: 16, overflow: "hidden",
+    <div ref={ref} className="anim-fill" style={{
+      width: "100%", height: "100%", minHeight: 360, aspectRatio: "16/9", borderRadius: 16, overflow: "hidden",
       background: "linear-gradient(150deg, #1E1C19, #2A2622, #332F2A)",
-      display: "flex", alignItems: "center", justifyContent: "center", gap: 12, padding: "24px 28px"
+      display: "flex", alignItems: "center", justifyContent: "center", gap: 16, padding: "32px 36px"
     }}>
       {steps.map((s, i) => {
         const delay = 0.08 + i * 0.14;
@@ -1452,28 +1464,29 @@ const MethodAnim = () => {
         return (
           <React.Fragment key={i}>
             <div style={{
-              display: "flex", flexDirection: "column", alignItems: "center", gap: 10,
+              display: "flex", flexDirection: "column", alignItems: "center", gap: 12,
               opacity: lerp(0, 1, st),
               transform: `translateY(${lerp(28, 0, st)}px) scale(${lerp(0.82, 1, st)})`,
             }}>
               <div style={{
-                width: 52, height: 52, borderRadius: 14,
-                background: `rgba(${s.color === "#B8956A" ? "184,149,106" : s.color === "#D4B896" ? "212,184,150" : s.color === "#9A7B55" ? "154,123,85" : "196,160,122"}, ${lerp(0.06, 0.18, idleGlow)})`,
-                border: `1.5px solid rgba(${s.color === "#B8956A" ? "184,149,106" : s.color === "#D4B896" ? "212,184,150" : s.color === "#9A7B55" ? "154,123,85" : "196,160,122"}, ${lerp(0.15, 0.5, idleGlow)})`,
+                width: 64, height: 64, borderRadius: 16,
+                background: `rgba(${s.color === "#B8956A" ? "184,149,106" : s.color === "#D4B896" ? "212,184,150" : s.color === "#9A7B55" ? "154,123,85" : "196,160,122"}, ${lerp(0.10, 0.24, idleGlow)})`,
+                border: `2px solid rgba(${s.color === "#B8956A" ? "184,149,106" : s.color === "#D4B896" ? "212,184,150" : s.color === "#9A7B55" ? "154,123,85" : "196,160,122"}, ${lerp(0.30, 0.65, idleGlow)})`,
                 display: "flex", alignItems: "center", justifyContent: "center",
-                fontFamily: "var(--font-display)", fontSize: 18, color: s.color,
-                boxShadow: `0 0 ${lerp(0, 16, idleGlow)}px ${s.color}22`,
+                fontFamily: "var(--font-display)", fontSize: 22, color: s.color,
+                boxShadow: `0 0 ${lerp(0, 22, idleGlow)}px ${s.color}33`,
               }}>{s.num}</div>
-              <span style={{ fontSize: 12, color: "rgba(253,252,250,0.9)", letterSpacing: 0.5, fontWeight: 500 }}>{cs.tr(s.labelKey)}</span>
+              <span style={{ fontSize: 15, color: "rgba(253,252,250,0.95)", letterSpacing: 0.3, fontWeight: 500 }}>{cs.tr(s.labelKey)}</span>
             </div>
             {i < 3 && (
               <div style={{
-                flex: 1, height: 1.5, maxWidth: 40,
-                background: `linear-gradient(90deg, ${s.color}60, ${steps[i+1].color}60)`,
-                opacity: connectT,
+                flex: 1, height: 3, maxWidth: 56, borderRadius: 2,
+                background: `linear-gradient(90deg, ${s.color}, ${steps[i+1].color})`,
+                opacity: lerp(0.4, 1, connectT),
                 transform: `scaleX(${connectT})`,
                 transformOrigin: "left",
-                marginTop: -16,
+                marginTop: -22,
+                boxShadow: `0 0 8px ${s.color}55`,
               }} />
             )}
           </React.Fragment>
@@ -1494,15 +1507,30 @@ const ToolsMergeAnim = () => {
   const angles = [0, 72, 144, 216, 288];
   const revealed = Math.min(t, 1);
   const mergeT = easeRev(Math.max(0, (revealed - 0.38) * 2.2));
-  const radius = lerp(95, 0, mergeT);
+  const radius = lerp(125, 0, mergeT);
   const idleGlow = t > 0.9 ? 0.5 + breathe(t - 0.9, 0.25, 0.4) : 0;
 
   return (
-    <div ref={ref} style={{
-      width: "100%", aspectRatio: "16/9", borderRadius: 16, overflow: "hidden",
+    <div ref={ref} className="anim-fill" style={{
+      width: "100%", height: "100%", minHeight: 420, aspectRatio: "16/9", borderRadius: 16, overflow: "hidden",
       background: "linear-gradient(150deg, #1E1C19, #2A2622, #332F2A)",
       display: "flex", alignItems: "center", justifyContent: "center", position: "relative"
     }}>
+      {/* Connection lines from outer nodes to center */}
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}>
+        {toolKeys.map((_, i) => {
+          const angle = (angles[i] * Math.PI) / 180;
+          const x = Math.cos(angle) * radius;
+          const y = Math.sin(angle) * radius;
+          const lt = easeRev(Math.max(0, (revealed - 0.2 - i * 0.05) * 2.5));
+          return (
+            <line key={i} x1="50%" y1="50%" x2={`calc(50% + ${x}px)`} y2={`calc(50% + ${y}px)`}
+              stroke="rgba(184,149,106,0.5)" strokeWidth="2.5"
+              strokeDasharray="5 4" opacity={lt * (1 - mergeT)}
+            />
+          );
+        })}
+      </svg>
       {toolKeys.map((key, i) => {
         const angle = (angles[i] * Math.PI) / 180;
         const x = Math.cos(angle) * radius;
@@ -1513,15 +1541,15 @@ const ToolsMergeAnim = () => {
             position: "absolute",
             transform: `translate(${x}px, ${y}px) scale(${lerp(0.75, mergeT > 0.92 ? 0 : 1, appear)})`,
             opacity: mergeT > 0.94 ? 0 : appear,
-            display: "flex", flexDirection: "column", alignItems: "center", gap: 5,
+            display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
           }}>
             <div style={{
-              width: 38, height: 38, borderRadius: 10,
-              background: "rgba(184,149,106,0.10)", border: "1px solid rgba(184,149,106,0.28)",
+              width: 52, height: 52, borderRadius: 13,
+              background: "rgba(184,149,106,0.16)", border: "1.5px solid rgba(184,149,106,0.5)",
               display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: 15, color: "#B8956A",
+              fontSize: 20, color: "#D4B896",
             }}>◆</div>
-            <span style={{ fontSize: 11, color: "rgba(253,252,250,0.85)", fontWeight: 500 }}>{cs.tr(key)}</span>
+            <span style={{ fontSize: 14, color: "rgba(253,252,250,0.95)", fontWeight: 500 }}>{cs.tr(key)}</span>
           </div>
         );
       })}
@@ -1532,13 +1560,13 @@ const ToolsMergeAnim = () => {
         textAlign: "center",
       }}>
         <div style={{
-          width: 68, height: 68, borderRadius: 18,
+          width: 92, height: 92, borderRadius: 22,
           background: "linear-gradient(135deg, #B8956A, #D4B896)",
           display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 26, color: "#1E1C19", margin: "0 auto 10px",
-          boxShadow: `0 8px ${lerp(24, 48, idleGlow)}px rgba(184,149,106,${lerp(0.3, 0.6, idleGlow)})`,
+          fontSize: 36, color: "#1E1C19", margin: "0 auto 14px",
+          boxShadow: `0 12px ${lerp(28, 56, idleGlow)}px rgba(184,149,106,${lerp(0.4, 0.7, idleGlow)})`,
         }}>★</div>
-        <span style={{ fontSize: 12, color: "rgba(253,252,250,0.85)", letterSpacing: 1 }}>{cs.tr('animYourPage')}</span>
+        <span style={{ fontSize: 16, color: "rgba(253,252,250,0.95)", letterSpacing: 1, fontWeight: 500 }}>{cs.tr('animYourPage')}</span>
       </div>
     </div>
   );
@@ -1558,49 +1586,49 @@ const TransformAnim = () => {
   const afterLabels  = [cs.tr('animClear'),   cs.tr('animRecognizable'), cs.tr('animBooked')];
 
   return (
-    <div ref={ref} style={{
-      width: "100%", aspectRatio: "16/9", borderRadius: 16, overflow: "hidden",
+    <div ref={ref} className="anim-fill" style={{
+      width: "100%", height: "100%", minHeight: 360, aspectRatio: "16/9", borderRadius: 16, overflow: "hidden",
       background: "#1E1C19", display: "flex", position: "relative"
     }}>
       {/* Before */}
       <div style={{
         flex: 1, display: "flex", flexDirection: "column", alignItems: "center",
-        justifyContent: "center", gap: 10, opacity: splitT,
-        borderRight: "1px solid rgba(184,149,106,0.12)",
+        justifyContent: "center", gap: 12, opacity: splitT,
+        borderRight: "1.5px solid rgba(184,149,106,0.25)",
       }}>
-        <div style={{ fontSize: 9, letterSpacing: 3, color: "rgba(253,252,250,0.7)", textTransform: "uppercase", marginBottom: 2 }}>{cs.tr('before')}</div>
+        <div style={{ fontSize: 12, letterSpacing: 2.5, color: "rgba(253,252,250,0.85)", textTransform: "uppercase", marginBottom: 6, fontWeight: 600 }}>{cs.tr('before')}</div>
         {beforeLabels.map((item, i) => (
           <div key={i} style={{
-            padding: "5px 14px", borderRadius: 8,
-            background: "rgba(253,252,250,0.03)", border: "1px solid rgba(253,252,250,0.07)",
-            fontSize: 12, color: "rgba(253,252,250,0.7)",
+            padding: "8px 18px", borderRadius: 10,
+            background: "rgba(253,252,250,0.06)", border: "1.5px solid rgba(253,252,250,0.14)",
+            fontSize: 14, color: "rgba(253,252,250,0.92)",
             opacity: easeRev(Math.max(0, (revealed - 0.14 - i * 0.07) * 3.5)),
           }}>{item}</div>
         ))}
       </div>
       {/* Arrow */}
-      <div style={{
+      <div className="rtl-mirror" style={{
         position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)",
-        width: 34, height: 34, borderRadius: "50%",
-        background: "rgba(184,149,106,0.14)", border: "1px solid rgba(184,149,106,0.3)",
+        width: 48, height: 48, borderRadius: "50%",
+        background: "rgba(184,149,106,0.20)", border: "2px solid rgba(184,149,106,0.55)",
         display: "flex", alignItems: "center", justifyContent: "center",
-        fontSize: 15, color: "#B8956A", zIndex: 1,
+        fontSize: 22, color: "#D4B896", zIndex: 1, fontWeight: 600,
         opacity: easeRev(Math.max(0, (revealed - 0.32) * 3.5)),
       }}>→</div>
       {/* After */}
       <div style={{
         flex: 1, display: "flex", flexDirection: "column", alignItems: "center",
-        justifyContent: "center", gap: 10, opacity: afterT,
+        justifyContent: "center", gap: 12, opacity: afterT,
       }}>
-        <div style={{ fontSize: 9, letterSpacing: 3, color: "#B8956A", textTransform: "uppercase", marginBottom: 2 }}>{cs.tr('after')}</div>
+        <div style={{ fontSize: 12, letterSpacing: 2.5, color: "#D4B896", textTransform: "uppercase", marginBottom: 6, fontWeight: 600 }}>{cs.tr('after')}</div>
         {afterLabels.map((item, i) => {
           const shimmer = t > 0.85 ? 0.5 + breathe(t - 0.85 + i * 0.2, 0.22, 0.35) : 1;
           return (
             <div key={i} style={{
-              padding: "5px 14px", borderRadius: 8,
-              background: `rgba(184,149,106,${lerp(0.08, 0.16, shimmer)})`,
-              border: `1px solid rgba(184,149,106,${lerp(0.2, 0.4, shimmer)})`,
-              fontSize: 12, color: "#C4A07A", fontWeight: 500,
+              padding: "8px 18px", borderRadius: 10,
+              background: `rgba(184,149,106,${lerp(0.14, 0.24, shimmer)})`,
+              border: `1.5px solid rgba(184,149,106,${lerp(0.4, 0.65, shimmer)})`,
+              fontSize: 14, color: "#E5C9A4", fontWeight: 600,
               opacity: easeRev(Math.max(0, (revealed - 0.54 - i * 0.07) * 3.5)),
             }}>{item}</div>
           );
@@ -1622,8 +1650,9 @@ const CTAAnim = ({ onClick }) => {
   return (
     <div ref={ref} onClick={onClick} role={onClick ? "button" : undefined} tabIndex={onClick ? 0 : undefined}
       onKeyDown={(e) => { if (onClick && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); onClick(); } }}
+      className="anim-fill"
       style={{
-      width: "100%", aspectRatio: "16/9", borderRadius: 16, overflow: "hidden",
+      width: "100%", height: "100%", minHeight: 320, aspectRatio: "16/9", borderRadius: 16, overflow: "hidden",
       background: "linear-gradient(150deg, #1E1C19, #2A2622, #332F2A)",
       display: "flex", alignItems: "center", justifyContent: "center", position: "relative",
       cursor: onClick ? "pointer" : "default",
@@ -1631,14 +1660,14 @@ const CTAAnim = ({ onClick }) => {
       {/* Continuous ripple rings — each offset in phase */}
       {[0, 1, 2, 3].map((i) => {
         const phase = ((t + i * 0.25) % 1);
-        const size = lerp(48, 340, ease(phase));
-        const op = lerp(0.35, 0, ease(phase)) * easeRev(revealed * 4);
+        const size = lerp(48, 380, ease(phase));
+        const op = lerp(0.5, 0, ease(phase)) * easeRev(revealed * 4);
         return (
           <div key={i} style={{
             position: "absolute", left: "50%", top: "50%",
             width: size, height: size,
             borderRadius: "50%",
-            border: "1px solid rgba(184,149,106,0.22)",
+            border: "1.5px solid rgba(184,149,106,0.42)",
             transform: "translate(-50%, -50%)",
             opacity: op,
           }} />
@@ -1646,18 +1675,18 @@ const CTAAnim = ({ onClick }) => {
       })}
       {/* CTA button mock */}
       <div style={{
-        padding: "13px 34px", borderRadius: 50, position: "relative", zIndex: 1,
+        padding: "16px 40px", borderRadius: 50, position: "relative", zIndex: 1,
         background: activated > 0.55
           ? "linear-gradient(135deg, #B8956A, #D4B896)"
-          : `rgba(184,149,106,${lerp(0.1, 0.2, activated)})`,
-        color: activated > 0.55 ? "#1E1C19" : `rgba(184,149,106,${lerp(0.5, 1, activated)})`,
-        fontSize: 15, fontWeight: 600, letterSpacing: 0.5,
+          : `rgba(184,149,106,${lerp(0.16, 0.28, activated)})`,
+        color: activated > 0.55 ? "#1E1C19" : `rgba(212,184,150,${lerp(0.7, 1, activated)})`,
+        fontSize: 17, fontWeight: 600, letterSpacing: 0.5,
         transform: `scale(${lerp(0.88, 1, easeRev(revealed * 4))})`,
         opacity: easeRev(revealed * 4),
         boxShadow: activated > 0.55
-          ? `0 8px ${lerp(24, 40, 0.5 + breathe(t, 0.3, 0.4))}px rgba(184,149,106,${lerp(0.25, 0.45, 0.5 + breathe(t, 0.3, 0.4))})`
+          ? `0 10px ${lerp(28, 48, 0.5 + breathe(t, 0.3, 0.4))}px rgba(184,149,106,${lerp(0.35, 0.55, 0.5 + breathe(t, 0.3, 0.4))})`
           : "none",
-      }}>{window.__CS.tr('getStarted')} →</div>
+      }}>{window.__CS.tr('getStarted')} <span className="rtl-mirror">→</span></div>
     </div>
   );
 };
@@ -1778,7 +1807,7 @@ const HeroSection = ({ onBuild, onDemo }) => {
             </div>
           </Reveal>
         </div>
-        <Reveal delay={0.15}>
+        <Reveal delay={0.15} className="anim-wrap">
           <HeroBrandAnim />
         </Reveal>
       </div>
@@ -1801,7 +1830,7 @@ const StuckSection = ({ onExpandProblem }) => {
         <Reveal><div style={tagStyle}>{cs.tr('stuckTag')}</div></Reveal>
         <Reveal delay={0.05}><h2 style={{ ...h2Style, maxWidth: 600 }}>{cs.tr('stuckH2')}</h2></Reveal>
         <Reveal delay={0.1}><p style={{ ...bodyStyle, marginBottom: 56 }}>{cs.tr('stuckBody')}</p></Reveal>
-        <div style={{ alignItems: "start" }} className="section-2col">
+        <div style={{ alignItems: "stretch" }} className="section-2col">
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {problems.map((p, i) => (
               <Reveal key={p.id} delay={0.15 + i * 0.08}>
@@ -1809,7 +1838,7 @@ const StuckSection = ({ onExpandProblem }) => {
               </Reveal>
             ))}
           </div>
-          <Reveal delay={0.2}><StuckAnim /></Reveal>
+          <Reveal delay={0.2} className="anim-wrap"><StuckAnim /></Reveal>
         </div>
       </div>
     </section>
@@ -1919,7 +1948,7 @@ const ToolsSection = ({ onOpenTool }) => {
         <Reveal delay={0.1}>
           <p style={{ ...bodyStyle, color: "rgba(253,252,250,0.85)", marginBottom: 48 }}>{cs.tr('toolsBody')}</p>
         </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "3fr 2fr", gap: 48, alignItems: "center" }} className="section-2col">
+        <div style={{ display: "grid", gridTemplateColumns: "3fr 2fr", gap: 48, alignItems: "stretch" }} className="section-2col">
           <div className="tools-grid">
             {tools.map((tool, i) => (
               <Reveal key={tool.id} delay={0.15 + i * 0.06}>
@@ -1927,7 +1956,7 @@ const ToolsSection = ({ onOpenTool }) => {
               </Reveal>
             ))}
           </div>
-          <Reveal delay={0.25}><ToolsMergeAnim /></Reveal>
+          <Reveal delay={0.25} className="anim-wrap"><ToolsMergeAnim /></Reveal>
         </div>
       </div>
     </section>
@@ -1963,7 +1992,7 @@ const TransformSection = () => {
         <Reveal delay={0.05}><h2 style={{ ...h2Style, maxWidth: 540 }}>{cs.tr('transformH2')}</h2></Reveal>
         <Reveal delay={0.1}><p style={{ ...bodyStyle, marginBottom: 48 }}>{cs.tr('transformBody')}</p></Reveal>
         <div className="section-2col" style={{ alignItems: "center" }}>
-          <Reveal delay={0.15}><TransformAnim /></Reveal>
+          <Reveal delay={0.15} className="anim-wrap"><TransformAnim /></Reveal>
           <Reveal delay={0.2}><TransformCompare /></Reveal>
         </div>
       </div>
