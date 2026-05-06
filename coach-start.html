@@ -2279,7 +2279,7 @@ const Modal = ({ open, onClose, children, wide }) => (
 );
 
 /* ==================== ONBOARDING FLOW ==================== */
-const OnboardingFlow = ({ open, onClose }) => {
+const OnboardingFlow = ({ open, onClose, onBook }) => {
   const [step, setStep] = React.useState(0);
   const [answers, setAnswers] = React.useState({ who: "", audience: "", result: "" });
   const [generating, setGenerating] = React.useState(false);
@@ -2374,14 +2374,14 @@ const OnboardingFlow = ({ open, onClose }) => {
           )}
         </div>
       ) : (
-        <GeneratedPage answers={answers} onClose={onClose} />
+        <GeneratedPage answers={answers} onClose={onClose} onBook={onBook} />
       )}
     </Modal>
   );
 };
 
 /* Generated coaching page preview */
-const GeneratedPage = ({ answers, onClose }) => {
+const GeneratedPage = ({ answers, onClose, onBook }) => {
   const cs = window.__CS;
   return (
   <div>
@@ -2416,11 +2416,15 @@ const GeneratedPage = ({ answers, onClose }) => {
             {answers.result || cs.tr('transformDefault')}
           </p>
         </div>
-        <button style={{
+        <button onClick={onBook} style={{
           width: "100%", padding: "14px", borderRadius: 50, background: "var(--charcoal-fixed)",
           color: "var(--cream-fixed)", border: "none", fontSize: 15, cursor: "pointer",
           fontFamily: "var(--font-body)", fontWeight: 500,
-        }}>{cs.tr('bookCall')} <span className="rtl-mirror">→</span></button>
+          transition: "all 0.3s var(--ease-out)",
+        }}
+          onMouseEnter={e => { e.currentTarget.style.background = "var(--gold)"; }}
+          onMouseLeave={e => { e.currentTarget.style.background = "var(--charcoal-fixed)"; }}
+        >{cs.tr('bookCall')} <span className="rtl-mirror">→</span></button>
       </div>
     </div>
     <div style={{ marginTop: 24, textAlign: "center" }}>
@@ -2962,7 +2966,7 @@ const App = () => {
       <Footer />
 
       {/* Modals */}
-      <OnboardingFlow open={showOnboarding} onClose={() => setShowOnboarding(false)} />
+      <OnboardingFlow open={showOnboarding} onClose={() => setShowOnboarding(false)} onBook={() => { setShowOnboarding(false); setShowBooking(true); }} />
       <WalkthroughFlow open={showWalkthrough} onClose={() => setShowWalkthrough(false)} />
       <ProblemDetail open={!!activeProblem} onClose={() => setActiveProblem(null)} problem={activeProblem} />
       <MethodStepDetail open={!!activeStep} onClose={() => setActiveStep(null)} step={activeStep} />
