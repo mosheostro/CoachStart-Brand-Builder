@@ -439,6 +439,7 @@ window.__CS = {
       ob1Label: "Who are you?", ob1Hint: "Tell us about your background, expertise, and what drives your coaching practice.", ob1Placeholder: "e.g. I'm a mindset coach with 8 years of experience in cognitive behavioral techniques...",
       ob2Label: "Who do you help?", ob2Hint: "Describe your ideal client — their situation, struggles, and aspirations.", ob2Placeholder: "e.g. Ambitious professionals in their 30s–40s who feel stuck in their careers...",
       ob3Label: "What result do you deliver?", ob3Hint: "What transformation can a client expect? Be specific about the outcome.", ob3Placeholder: "e.g. Clients gain clarity on their next career move and build confidence to pursue it within 90 days...",
+      helpingPrefix: "Helping", yourNameDefault: "Your Name", idealClientsDefault: "your ideal clients", transformDefault: "Your clients achieve meaningful, lasting change.",
     },
     ru: {
       getStarted: "Начать",
@@ -523,6 +524,7 @@ window.__CS = {
       ob1Label: "Кто вы?", ob1Hint: "Расскажите о вашем опыте, экспертизе и о том, что движет вашей коучинговой практикой.", ob1Placeholder: "напр. Я коуч по мышлению с 8-летним опытом в когнитивно-поведенческих техниках...",
       ob2Label: "Кому вы помогаете?", ob2Hint: "Опишите идеального клиента — его ситуацию, трудности и стремления.", ob2Placeholder: "напр. Амбициозные профессионалы 30–40 лет, которые застряли в карьере...",
       ob3Label: "Какой результат вы даёте?", ob3Hint: "Какую трансформацию ждёт клиент? Будьте конкретны.", ob3Placeholder: "напр. Клиенты получают ясность по следующему карьерному шагу и уверенность за 90 дней...",
+      helpingPrefix: "Помогаю", yourNameDefault: "Ваше имя", idealClientsDefault: "вашим идеальным клиентам", transformDefault: "Ваши клиенты получают значимые, устойчивые изменения.",
     },
     he: {
       getStarted: "להתחיל",
@@ -607,6 +609,7 @@ window.__CS = {
       ob1Label: "מי אתה?", ob1Hint: "ספר לנו על הרקע, המומחיות ומה שמניע את פרקטיקת הקואצ׳ינג שלך.", ob1Placeholder: "למשל: אני קואצ׳ למיינדסט עם 8 שנות ניסיון בטכניקות קוגניטיביות-התנהגותיות...",
       ob2Label: "למי אתה עוזר?", ob2Hint: "תאר את הלקוח האידיאלי — מצבו, קשייו ושאיפותיו.", ob2Placeholder: "למשל: אנשי מקצוע שאפתניים בגילאי 30–40 שתקועים בקריירה...",
       ob3Label: "איזו תוצאה אתה מספק?", ob3Hint: "איזה שינוי הלקוח יכול לצפות לו? היה ספציפי.", ob3Placeholder: "למשל: לקוחות מקבלים בהירות לגבי הצעד הקריירי הבא וביטחון להגשים אותו ב-90 יום...",
+      helpingPrefix: "עוזר ל-", yourNameDefault: "השם שלך", idealClientsDefault: "ללקוחות האידיאליים שלך", transformDefault: "הלקוחות שלך מגיעים לשינוי משמעותי ומתמשך.",
     },
     de: {
       getStarted: "Loslegen",
@@ -691,6 +694,7 @@ window.__CS = {
       ob1Label: "Wer bist du?", ob1Hint: "Erzähle uns von deinem Hintergrund, deiner Expertise und was deine Coaching-Praxis antreibt.", ob1Placeholder: "z. B. Ich bin Mindset-Coach mit 8 Jahren Erfahrung in kognitiv-verhaltenstherapeutischen Techniken...",
       ob2Label: "Wem hilfst du?", ob2Hint: "Beschreibe deinen idealen Kunden — Situation, Herausforderungen und Ambitionen.", ob2Placeholder: "z. B. Ehrgeizige Fachleute in den 30er–40ern, die in ihrer Karriere feststecken...",
       ob3Label: "Welches Ergebnis lieferst du?", ob3Hint: "Welche Transformation kann ein Kunde erwarten? Sei konkret.", ob3Placeholder: "z. B. Kunden gewinnen Klarheit über ihren nächsten Karriereschritt und das Selbstvertrauen, ihn in 90 Tagen anzugehen...",
+      helpingPrefix: "Hilft", yourNameDefault: "Dein Name", idealClientsDefault: "deinen idealen Kunden", transformDefault: "Deine Kunden erreichen bedeutsame, nachhaltige Veränderung.",
     },
   },
   /* active lang and theme — App component reads/writes these */
@@ -2383,10 +2387,10 @@ const GeneratedPage = ({ answers, onClose }) => {
           fontSize: 24, color: "var(--charcoal-fixed)"
         }}>★</div>
         <h3 style={{ fontFamily: "var(--font-display)", fontSize: 24, color: "var(--cream-fixed)", marginBottom: 8 }}>
-          {answers.who.split(" ").slice(0, 4).join(" ") || "Your Name"}
+          {answers.who.split(" ").slice(0, 4).join(" ") || cs.tr('yourNameDefault')}
         </h3>
         <p style={{ fontSize: 14, color: "var(--cream-fixed-mute)" }}>
-          Helping {answers.audience.split(" ").slice(0, 6).join(" ") || "your ideal clients"}
+          {cs.tr('helpingPrefix')} {answers.audience.split(" ").slice(0, 6).join(" ") || cs.tr('idealClientsDefault')}
         </p>
       </div>
       {/* Mock sections */}
@@ -2394,7 +2398,7 @@ const GeneratedPage = ({ answers, onClose }) => {
         <div style={{ marginBottom: 24 }}>
           <div style={{ fontSize: 13, letterSpacing: 2, textTransform: "uppercase", color: "var(--gold)", marginBottom: 8, fontWeight: 600 }}>{cs.tr('theTransformation')}</div>
           <p style={{ fontSize: 15, color: "var(--text)", lineHeight: 1.6 }}>
-            {answers.result || "Your clients achieve meaningful, lasting change."}
+            {answers.result || cs.tr('transformDefault')}
           </p>
         </div>
         <button style={{
@@ -2672,7 +2676,7 @@ const ToolDemo = ({ open, onClose, tool }) => {
       messaging: { prompt: "מהי הבעיה מספר 1 של הלקוחות שלך?", outputGen: (v) => `אפשרויות כותרת:\n1. "עצור ${v.toLowerCase()} — התחל להוביל בבהירות"\n2. "${v} נגמר כאן"\n3. "מ-${v.toLowerCase()} לפעולה בטוחה"\n\nהצעת ערך: אתה עוזר לאנשים לעבור מעבר ל-${v.toLowerCase()} למקום של בהירות ומטרה.` },
       content: { prompt: "אילו נושאים אתה מלמד הכי הרבה?", outputGen: (v) => `עמודי תוכן על בסיס "${v}":\n\n1. חינוכי — פרק את המתודולוגיה שלך\n2. סיפור — שתף טרנספורמציות של לקוחות\n3. תובנה — נקודת המבט הייחודית שלך בתחום\n\nהתחלה ל-30 יום: 3 פוסטים בשבוע, ברוטציה בין העמודים` },
       story: { prompt: "איזה רגע גרם לך להחליט להפוך לקואצ׳?", outputGen: (v) => `מסגרת סיפור המקור שלך:\n\nנקודת המפנה: "${v}"\nהמסע: מה למדת ואיך זה עיצב את הגישה שלך\nהשליחות: למה עכשיו אתה עוזר לאחרים בזה\n\nזה הופך לחלק "אודות" בדף שלך.` },
-      journey: { prompt: "איפה רוב הלקוחות שלך מוצאים אותך?", outputGen: (v) => `מסע הלקוח מ-"${v}":\n\n${v} → הדף שלך → קרא את הסיפור → ראה את השינוי → הזמן שיחה חינם → פגישת היכרות → תוכנית בתשלום\n\nתובנה: הוסף ליד-מגנט בין היכרות להזמנה כדי לבנות אמון.` },
+      journey: { prompt: "איפה רוב הלקוחות שלך מוצאים אותך?", outputGen: (v) => `מסע הלקוח מ-"${v}":\n\n${v} ← הדף שלך ← קרא את הסיפור ← ראה את השינוי ← הזמן שיחה חינם ← פגישת היכרות ← תוכנית בתשלום\n\nתובנה: הוסף ליד-מגנט בין היכרות להזמנה כדי לבנות אמון.` },
     },
     de: {
       brand: { prompt: "Beschreibe deinen Coaching-Stil in 3 Wörtern:", outputGen: (v) => `Markenschlüsselwörter: ${v}\n\nVorgeschlagene Palette: warme Goldtöne, sanftes Creme, Charcoal-Anker\nStimme: selbstbewusst aber warm, direkt aber empathisch\nFontstil: moderne Serif-Headlines, klares Sans für Body` },
