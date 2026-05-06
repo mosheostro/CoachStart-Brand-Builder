@@ -2560,24 +2560,33 @@ const ProblemDetail = ({ open, onClose, problem }) => {
 const MethodStepDetail = ({ open, onClose, step }) => {
   if (!step) return null;
   const cs = window.__CS;
-  const guides = {
-    "01": {
-      exercises: ["Write your coaching origin story in 100 words", "List 5 clients you loved working with — what do they have in common?", "Complete: 'I help _____ to _____'"],
-      example: "Sarah, a burnout recovery coach, went from 'I help people feel better' to 'I help tech leaders in their 30s recover from burnout and redesign their relationship with work.'"
+  const guidesByLang = {
+    en: {
+      "01": { exercises: ["Write your coaching origin story in 100 words", "List 5 clients you loved working with — what do they have in common?", "Complete: 'I help _____ to _____'"], example: "Sarah, a burnout recovery coach, went from 'I help people feel better' to 'I help tech leaders in their 30s recover from burnout and redesign their relationship with work.'" },
+      "02": { exercises: ["Write 3 headlines for your page — which stops the scroll?", "Record yourself explaining what you do to a friend. Transcribe it.", "Fill in: My clients come to me feeling _____. They leave feeling _____."], example: "Marcus refined his message from 'Executive coaching services' to 'The leadership clarity program for new VPs who want to earn trust fast.'" },
+      "03": { exercises: ["Audit your LinkedIn, website, and Instagram — are they telling the same story?", "Choose 3 content pillars that reflect your expertise", "Create a 30-day content calendar using your pillars"], example: "Priya unified her presence around 'calm leadership' — same bio structure, same photo style, same color palette across everything." },
+      "04": { exercises: ["Map the journey: Discovery → Interest → Trust → Book → Transform", "Identify your biggest drop-off point", "Write the confirmation email a client gets after booking"], example: "James added a single 'Book a free 15-min call' button and saw inquiries jump 4x in the first month." },
     },
-    "02": {
-      exercises: ["Write 3 headlines for your page — which stops the scroll?", "Record yourself explaining what you do to a friend. Transcribe it.", "Fill in: My clients come to me feeling _____. They leave feeling _____."],
-      example: "Marcus refined his message from 'Executive coaching services' to 'The leadership clarity program for new VPs who want to earn trust fast.'"
+    ru: {
+      "01": { exercises: ["Напишите свою коучинговую историю в 100 словах", "Перечислите 5 клиентов, с которыми вам нравилось работать — что у них общего?", "Заполните: «Я помогаю _____ достичь _____»"], example: "Сара, коуч по восстановлению от выгорания, перешла от «Я помогаю людям чувствовать себя лучше» к «Я помогаю IT-руководителям 30+ восстановиться от выгорания и переосмыслить отношения с работой»." },
+      "02": { exercises: ["Напишите 3 заголовка для вашей страницы — какой останавливает скролл?", "Запишите, как вы объясняете другу, чем занимаетесь. Расшифруйте.", "Заполните: «Мои клиенты приходят с чувством _____. Уходят с чувством _____»"], example: "Маркус уточнил своё послание с «Услуги executive-коучинга» до «Программа ясности лидерства для новых VP, которые хотят быстро завоевать доверие»." },
+      "03": { exercises: ["Проверьте LinkedIn, сайт и Instagram — рассказывают ли они одну историю?", "Выберите 3 контентные опоры, отражающие вашу экспертизу", "Создайте 30-дневный контент-план на основе опор"], example: "Прия объединила своё присутствие вокруг идеи «спокойного лидерства» — единая структура био, стиль фото и палитра везде." },
+      "04": { exercises: ["Опишите путь: знакомство → интерес → доверие → запись → трансформация", "Найдите главный пункт оттока", "Напишите письмо-подтверждение, которое клиент получает после записи"], example: "Джеймс добавил одну кнопку «Записаться на бесплатный 15-минутный звонок» и за первый месяц получил в 4 раза больше запросов." },
     },
-    "03": {
-      exercises: ["Audit your LinkedIn, website, and Instagram — are they telling the same story?", "Choose 3 content pillars that reflect your expertise", "Create a 30-day content calendar using your pillars"],
-      example: "Priya unified her presence around 'calm leadership' — same bio structure, same photo style, same color palette across everything."
+    he: {
+      "01": { exercises: ["כתוב את סיפור המקור הקואצ׳ינגי שלך ב-100 מילים", "רשום 5 לקוחות שאהבת לעבוד איתם — מה משותף להם?", "השלם: ׳אני עוזר ל-_____ להשיג _____׳"], example: "שרה, קואצ׳ית להחלמה משחיקה, עברה מ׳אני עוזרת לאנשים להרגיש טוב יותר׳ ל׳אני עוזרת למובילי טכנולוגיה בשנות ה-30 להחלים משחיקה ולעצב מחדש את היחס שלהם לעבודה׳." },
+      "02": { exercises: ["כתוב 3 כותרות לדף שלך — איזו עוצרת את הגלילה?", "הקלט את עצמך מסביר לחבר מה אתה עושה. תמלל.", "השלם: ׳הלקוחות שלי מגיעים אליי עם תחושה של _____. עוזבים עם תחושה של _____׳"], example: "מרקוס חידד את המסר שלו מ׳שירותי קואצ׳ינג ניהולי׳ ל׳תוכנית בהירות מנהיגותית לסמנכ״לים חדשים שרוצים לזכות באמון מהר׳." },
+      "03": { exercises: ["בדוק את הלינקדאין, האתר והאינסטגרם — האם הם מספרים אותו סיפור?", "בחר 3 עמודי תוכן שמשקפים את המומחיות שלך", "צור לוח שנה של תוכן ל-30 יום לפי העמודים"], example: "פריה איחדה את הנוכחות שלה סביב ׳מנהיגות רגועה׳ — אותו מבנה ביוגרפיה, סגנון תמונה ופלטה בכל מקום." },
+      "04": { exercises: ["מפה את המסע: גילוי → עניין → אמון → הזמנה → טרנספורמציה", "זהה את נקודת הנשירה הגדולה ביותר", "כתוב את אימייל האישור שלקוח מקבל אחרי הזמנה"], example: "ג׳יימס הוסיף כפתור אחד ׳הזמן שיחה חינם של 15 דקות׳ וראה את הפניות גדלות פי 4 בחודש הראשון." },
     },
-    "04": {
-      exercises: ["Map the journey: Discovery → Interest → Trust → Book → Transform", "Identify your biggest drop-off point", "Write the confirmation email a client gets after booking"],
-      example: "James added a single 'Book a free 15-min call' button and saw inquiries jump 4x in the first month."
-    }
+    de: {
+      "01": { exercises: ["Schreibe deine Coaching-Ursprungsgeschichte in 100 Wörtern", "Liste 5 Kunden auf, mit denen du gerne gearbeitet hast — was haben sie gemeinsam?", "Vervollständige: ‚Ich helfe _____ dabei, _____ zu erreichen‘"], example: "Sarah, eine Burnout-Recovery-Coach, ging von ‚Ich helfe Menschen, sich besser zu fühlen‘ zu ‚Ich helfe Tech-Führungskräften in den 30ern, sich von Burnout zu erholen und ihre Beziehung zur Arbeit neu zu gestalten‘." },
+      "02": { exercises: ["Schreibe 3 Headlines für deine Seite — welche stoppt das Scrollen?", "Nimm dich auf, wie du einem Freund erklärst, was du tust. Transkribiere es.", "Fülle aus: ‚Meine Kunden kommen mit dem Gefühl _____. Sie gehen mit dem Gefühl _____.‘"], example: "Marcus verfeinerte seine Botschaft von ‚Executive-Coaching-Services‘ zu ‚Das Leadership-Clarity-Programm für neue VPs, die schnell Vertrauen aufbauen wollen‘." },
+      "03": { exercises: ["Prüfe LinkedIn, Website und Instagram — erzählen sie dieselbe Geschichte?", "Wähle 3 Content-Säulen, die deine Expertise widerspiegeln", "Erstelle einen 30-Tage-Content-Kalender basierend auf den Säulen"], example: "Priya vereinte ihre Präsenz um ‚ruhige Führung‘ — gleiche Bio-Struktur, gleicher Fotostil, gleiche Palette überall." },
+      "04": { exercises: ["Mappe die Reise: Entdeckung → Interesse → Vertrauen → Buchung → Transformation", "Identifiziere deinen größten Abbruchpunkt", "Schreibe die Bestätigungs-Mail, die ein Kunde nach der Buchung erhält"], example: "James fügte einen einzigen ‚Buche einen kostenlosen 15-Min-Call‘-Button hinzu und sah in der ersten Woche 4× mehr Anfragen." },
+    },
   };
+  const guides = guidesByLang[cs.lang] || guidesByLang.en;
   const guide = guides[step.num] || { exercises: [], example: "" };
 
   return (
@@ -2642,15 +2651,41 @@ const ToolDemo = ({ open, onClose, tool }) => {
 
   React.useEffect(() => { if (open) { setInput(""); setOutput(""); setLoading(false); } }, [open, tool]);
 
-  const demos = {
-    brand: { prompt: "Describe your coaching style in 3 words:", outputGen: (v) => `Brand keywords: ${v}\n\nSuggested palette: Warm golds, soft creams, charcoal anchors\nVoice: Confident yet warm, direct but empathetic\nFont style: Modern serif headlines, clean sans body` },
-    messaging: { prompt: "What's the #1 problem your clients face?", outputGen: (v) => `Headline options:\n1. "Stop ${v.toLowerCase()} — start leading with clarity"\n2. "The ${v.toLowerCase()} ends here"\n3. "From ${v.toLowerCase()} to confident action"\n\nValue prop: You help people move past ${v.toLowerCase()} into a place of clarity and purpose.` },
-    content: { prompt: "What topics do you teach most often?", outputGen: (v) => `Content pillars based on "${v}":\n\n1. Educational — Break down your methodology\n2. Story — Share client transformations\n3. Insight — Your unique perspective on the field\n\n30-day starter: 3 posts/week, rotating pillars` },
-    story: { prompt: "What moment made you decide to become a coach?", outputGen: (v) => `Your origin story framework:\n\nThe Turning Point: "${v}"\nThe Journey: What you learned and how it shaped your approach\nThe Mission: Why you now help others with this\n\nThis becomes the "About" section of your page.` },
-    journey: { prompt: "Where do most of your clients find you?", outputGen: (v) => `Client journey from "${v}":\n\n${v} → Your page → Read your story → See the transformation → Book free call → Discovery session → Paid program\n\nKey insight: Add a lead magnet between discovery and booking to build trust.` },
+  const cs = window.__CS;
+  const demosByLang = {
+    en: {
+      brand: { prompt: "Describe your coaching style in 3 words:", outputGen: (v) => `Brand keywords: ${v}\n\nSuggested palette: Warm golds, soft creams, charcoal anchors\nVoice: Confident yet warm, direct but empathetic\nFont style: Modern serif headlines, clean sans body` },
+      messaging: { prompt: "What's the #1 problem your clients face?", outputGen: (v) => `Headline options:\n1. "Stop ${v.toLowerCase()} — start leading with clarity"\n2. "The ${v.toLowerCase()} ends here"\n3. "From ${v.toLowerCase()} to confident action"\n\nValue prop: You help people move past ${v.toLowerCase()} into a place of clarity and purpose.` },
+      content: { prompt: "What topics do you teach most often?", outputGen: (v) => `Content pillars based on "${v}":\n\n1. Educational — Break down your methodology\n2. Story — Share client transformations\n3. Insight — Your unique perspective on the field\n\n30-day starter: 3 posts/week, rotating pillars` },
+      story: { prompt: "What moment made you decide to become a coach?", outputGen: (v) => `Your origin story framework:\n\nThe Turning Point: "${v}"\nThe Journey: What you learned and how it shaped your approach\nThe Mission: Why you now help others with this\n\nThis becomes the "About" section of your page.` },
+      journey: { prompt: "Where do most of your clients find you?", outputGen: (v) => `Client journey from "${v}":\n\n${v} → Your page → Read your story → See the transformation → Book free call → Discovery session → Paid program\n\nKey insight: Add a lead magnet between discovery and booking to build trust.` },
+    },
+    ru: {
+      brand: { prompt: "Опишите свой стиль коучинга в 3 словах:", outputGen: (v) => `Ключевые слова бренда: ${v}\n\nПалитра: тёплое золото, мягкие кремовые тона, угольные акценты\nГолос: уверенный, но тёплый — прямой, но эмпатичный\nШрифт: современный серифный заголовок, чистый sans для текста` },
+      messaging: { prompt: "Какая главная проблема ваших клиентов?", outputGen: (v) => `Варианты заголовков:\n1. «Хватит ${v.toLowerCase()} — начните вести с ясностью»\n2. «${v} заканчивается здесь»\n3. «От ${v.toLowerCase()} к уверенному действию»\n\nЦенностное предложение: вы помогаете людям пройти от «${v.toLowerCase()}» к ясности и цели.` },
+      content: { prompt: "Какие темы вы преподаёте чаще всего?", outputGen: (v) => `Контентные опоры на основе «${v}»:\n\n1. Обучающие — разбор вашей методологии\n2. История — трансформации клиентов\n3. Инсайт — ваш уникальный взгляд на тему\n\nСтартовая программа: 3 поста в неделю, чередуя опоры` },
+      story: { prompt: "Какой момент привёл вас в коучинг?", outputGen: (v) => `Каркас вашей истории:\n\nПоворотный момент: «${v}»\nПуть: чему вы научились и как это сформировало ваш подход\nМиссия: почему теперь вы помогаете другим\n\nЭто станет разделом «Обо мне» вашей страницы.` },
+      journey: { prompt: "Откуда чаще всего приходят ваши клиенты?", outputGen: (v) => `Путь клиента из «${v}»:\n\n${v} → ваша страница → история → трансформация → бесплатный звонок → знакомство → платная программа\n\nКлюч: добавьте лид-магнит между знакомством и записью, чтобы выстроить доверие.` },
+    },
+    he: {
+      brand: { prompt: "תאר את סגנון הקואצ׳ינג שלך ב-3 מילים:", outputGen: (v) => `מילות מפתח של מותג: ${v}\n\nפלטה מוצעת: זהב חמים, קרם רך, עוגן פחם\nקול: בטוח אך חם, ישיר אך אמפתי\nסגנון גופן: כותרות סריף מודרני, גוף סאנס נקי` },
+      messaging: { prompt: "מהי הבעיה מספר 1 של הלקוחות שלך?", outputGen: (v) => `אפשרויות כותרת:\n1. "עצור ${v.toLowerCase()} — התחל להוביל בבהירות"\n2. "${v} נגמר כאן"\n3. "מ-${v.toLowerCase()} לפעולה בטוחה"\n\nהצעת ערך: אתה עוזר לאנשים לעבור מעבר ל-${v.toLowerCase()} למקום של בהירות ומטרה.` },
+      content: { prompt: "אילו נושאים אתה מלמד הכי הרבה?", outputGen: (v) => `עמודי תוכן על בסיס "${v}":\n\n1. חינוכי — פרק את המתודולוגיה שלך\n2. סיפור — שתף טרנספורמציות של לקוחות\n3. תובנה — נקודת המבט הייחודית שלך בתחום\n\nהתחלה ל-30 יום: 3 פוסטים בשבוע, ברוטציה בין העמודים` },
+      story: { prompt: "איזה רגע גרם לך להחליט להפוך לקואצ׳?", outputGen: (v) => `מסגרת סיפור המקור שלך:\n\nנקודת המפנה: "${v}"\nהמסע: מה למדת ואיך זה עיצב את הגישה שלך\nהשליחות: למה עכשיו אתה עוזר לאחרים בזה\n\nזה הופך לחלק "אודות" בדף שלך.` },
+      journey: { prompt: "איפה רוב הלקוחות שלך מוצאים אותך?", outputGen: (v) => `מסע הלקוח מ-"${v}":\n\n${v} → הדף שלך → קרא את הסיפור → ראה את השינוי → הזמן שיחה חינם → פגישת היכרות → תוכנית בתשלום\n\nתובנה: הוסף ליד-מגנט בין היכרות להזמנה כדי לבנות אמון.` },
+    },
+    de: {
+      brand: { prompt: "Beschreibe deinen Coaching-Stil in 3 Wörtern:", outputGen: (v) => `Markenschlüsselwörter: ${v}\n\nVorgeschlagene Palette: warme Goldtöne, sanftes Creme, Charcoal-Anker\nStimme: selbstbewusst aber warm, direkt aber empathisch\nFontstil: moderne Serif-Headlines, klares Sans für Body` },
+      messaging: { prompt: "Was ist das Problem Nr. 1 deiner Kunden?", outputGen: (v) => `Headline-Optionen:\n1. „Schluss mit ${v.toLowerCase()} — führe mit Klarheit"\n2. „${v} endet hier"\n3. „Von ${v.toLowerCase()} zu selbstbewusstem Handeln"\n\nWertversprechen: Du hilfst Menschen, ${v.toLowerCase()} hinter sich zu lassen und Klarheit zu finden.` },
+      content: { prompt: "Welche Themen unterrichtest du am häufigsten?", outputGen: (v) => `Content-Säulen basierend auf „${v}":\n\n1. Edukativ — erkläre deine Methodik\n2. Story — teile Kunden-Transformationen\n3. Insight — deine einzigartige Perspektive\n\n30-Tage-Start: 3 Posts/Woche, Säulen rotierend` },
+      story: { prompt: "Welcher Moment ließ dich Coach werden?", outputGen: (v) => `Dein Ursprungsgeschichts-Framework:\n\nDer Wendepunkt: „${v}"\nDie Reise: Was du gelernt hast und wie es deinen Ansatz prägte\nDie Mission: Warum du jetzt anderen damit hilfst\n\nDas wird zum „Über mich"-Abschnitt deiner Seite.` },
+      journey: { prompt: "Wo finden deine Kunden dich am häufigsten?", outputGen: (v) => `Kundenreise von „${v}":\n\n${v} → deine Seite → lies die Story → sieh die Transformation → kostenlosen Call buchen → Discovery → bezahltes Programm\n\nSchlüssel-Insight: Füge zwischen Discovery und Buchung einen Lead-Magnet ein, um Vertrauen aufzubauen.` },
+    },
   };
-
+  const demos = demosByLang[cs.lang] || demosByLang.en;
   const demo = demos[tool.id] || demos.brand;
+  const placeholderByLang = { en: "Type your answer...", ru: "Введите ваш ответ...", he: "הקלד את התשובה שלך...", de: "Gib deine Antwort ein..." };
+  const inputPlaceholder = placeholderByLang[cs.lang] || placeholderByLang.en;
 
   const handleGenerate = () => {
     if (!input.trim()) return;
@@ -2680,7 +2715,7 @@ const ToolDemo = ({ open, onClose, tool }) => {
         <div style={{ display: "flex", gap: 10 }}>
           <input value={input} onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === "Enter" && handleGenerate()}
-            placeholder="Type your answer..."
+            placeholder={inputPlaceholder}
             style={{
               flex: 1, padding: "12px 16px", borderRadius: 12,
               border: "1.5px solid var(--sand)", background: "var(--cream)",
