@@ -303,6 +303,10 @@ a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-ra
   .cta-btns button { width: 100%; justify-content: center; }
   .transform-compare { grid-template-columns: 1fr !important; gap: var(--space-3) !important; }
   .transform-compare .rtl-mirror { display: none; }
+  /* ToolDemo input + button: stack vertically so long localized labels don't overflow */
+  .tool-demo-row { flex-direction: column; }
+  .tool-demo-row > * { width: 100%; }
+  .tool-demo-btn { padding: 14px 20px !important; }
 }
 
 /* ── Tools section: charcoal in light, deep-dark in dark ───── */
@@ -2735,20 +2739,20 @@ const ToolDemo = ({ open, onClose, tool }) => {
         <label style={{ fontSize: 14, fontWeight: 500, color: "var(--charcoal)", display: "block", marginBottom: 8 }}>
           {demo.prompt}
         </label>
-        <div style={{ display: "flex", gap: 10 }}>
+        <div className="tool-demo-row" style={{ display: "flex", gap: 10 }}>
           <input value={input} onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === "Enter" && handleGenerate()}
             placeholder={inputPlaceholder}
             style={{
-              flex: 1, padding: "12px 16px", borderRadius: 12,
+              flex: 1, minWidth: 0, padding: "12px 16px", borderRadius: 12,
               border: "1.5px solid var(--sand)", background: "var(--cream)",
               fontSize: 15, fontFamily: "var(--font-body)", color: "var(--text)", outline: "none",
             }}
           />
-          <button onClick={handleGenerate} style={{
+          <button onClick={handleGenerate} className="tool-demo-btn" style={{
             padding: "12px 20px", borderRadius: 12, background: "var(--charcoal-fixed)",
             color: "var(--cream-fixed)", border: "none", fontSize: 14, cursor: "pointer",
-            fontFamily: "var(--font-body)", fontWeight: 500, whiteSpace: "nowrap",
+            fontFamily: "var(--font-body)", fontWeight: 500, whiteSpace: "nowrap", flexShrink: 0,
           }}>{window.__CS.tr('generate')}</button>
         </div>
       </div>
