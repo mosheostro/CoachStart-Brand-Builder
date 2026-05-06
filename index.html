@@ -280,6 +280,21 @@ a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-ra
   .modal-2col   { grid-template-columns: 1fr !important; }
 }
 
+/* Tools section split: 3fr/2fr desktop -> stacked on tablet/mobile */
+.tools-split { grid-template-columns: 3fr 2fr !important; gap: var(--space-12); }
+@media (max-width: 900px) {
+  .tools-split { grid-template-columns: 1fr !important; gap: var(--space-8); }
+}
+
+/* Method animation: horizontal step row -> wraps + scales on small screens */
+.method-anim-row { flex-wrap: wrap; }
+@media (max-width: 600px) {
+  .method-anim-row { gap: 10px !important; padding: 18px 14px !important; }
+  .method-anim-row .method-step-box { width: 50px !important; height: 50px !important; font-size: 18px !important; }
+  .method-anim-row .method-connector { max-width: 24px !important; }
+  .method-anim-row .method-step-label { font-size: 12px !important; }
+}
+
 @media (max-width: 600px) {
   .section-4col { grid-template-columns: 1fr; }
   .tools-grid   { grid-template-columns: 1fr; }
@@ -1457,7 +1472,7 @@ const MethodAnim = () => {
   const revealed = Math.min(t, 1);
 
   return (
-    <div ref={ref} className="anim-fill" style={{
+    <div ref={ref} className="anim-fill method-anim-row" style={{
       width: "100%", height: "100%", minHeight: 360, borderRadius: 16, overflow: "hidden",
       background: "linear-gradient(150deg, #1E1C19, #2A2622, #332F2A)",
       display: "flex", alignItems: "center", justifyContent: "center", gap: 16, padding: "32px 36px"
@@ -1474,7 +1489,7 @@ const MethodAnim = () => {
               opacity: lerp(0, 1, st),
               transform: `translateY(${lerp(28, 0, st)}px) scale(${lerp(0.82, 1, st)})`,
             }}>
-              <div style={{
+              <div className="method-step-box" style={{
                 width: 64, height: 64, borderRadius: 16,
                 background: `rgba(${s.color === "#B8956A" ? "184,149,106" : s.color === "#D4B896" ? "212,184,150" : s.color === "#9A7B55" ? "154,123,85" : "196,160,122"}, ${lerp(0.10, 0.24, idleGlow)})`,
                 border: `2px solid rgba(${s.color === "#B8956A" ? "184,149,106" : s.color === "#D4B896" ? "212,184,150" : s.color === "#9A7B55" ? "154,123,85" : "196,160,122"}, ${lerp(0.30, 0.65, idleGlow)})`,
@@ -1482,10 +1497,10 @@ const MethodAnim = () => {
                 fontFamily: "var(--font-display)", fontSize: 22, color: s.color,
                 boxShadow: `0 0 ${lerp(0, 22, idleGlow)}px ${s.color}33`,
               }}>{s.num}</div>
-              <span style={{ fontSize: 15, color: "rgba(253,252,250,0.95)", letterSpacing: 0.3, fontWeight: 500 }}>{cs.tr(s.labelKey)}</span>
+              <span className="method-step-label" style={{ fontSize: 15, color: "rgba(253,252,250,0.95)", letterSpacing: 0.3, fontWeight: 500 }}>{cs.tr(s.labelKey)}</span>
             </div>
             {i < 3 && (
-              <div style={{
+              <div className="method-connector" style={{
                 flex: 1, height: 3, maxWidth: 56, borderRadius: 2,
                 background: `linear-gradient(90deg, ${s.color}, ${steps[i+1].color})`,
                 opacity: lerp(0.4, 1, connectT),
@@ -1956,7 +1971,7 @@ const ToolsSection = ({ onOpenTool }) => {
         <Reveal delay={0.1}>
           <p style={{ ...bodyStyle, color: "rgba(253,252,250,0.85)", marginBottom: 48 }}>{cs.tr('toolsBody')}</p>
         </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "3fr 2fr", gap: 48, alignItems: "stretch" }} className="section-2col">
+        <div className="section-2col tools-split" style={{ alignItems: "stretch" }}>
           <div className="tools-grid">
             {tools.map((tool, i) => (
               <Reveal key={tool.id} delay={0.15 + i * 0.06}>
@@ -2581,7 +2596,7 @@ const MethodStepDetail = ({ open, onClose, step }) => {
       "01": { exercises: ["כתוב את סיפור המקור הקואצ׳ינגי שלך ב-100 מילים", "רשום 5 לקוחות שאהבת לעבוד איתם — מה משותף להם?", "השלם: ׳אני עוזר ל-_____ להשיג _____׳"], example: "שרה, קואצ׳ית להחלמה משחיקה, עברה מ׳אני עוזרת לאנשים להרגיש טוב יותר׳ ל׳אני עוזרת למובילי טכנולוגיה בשנות ה-30 להחלים משחיקה ולעצב מחדש את היחס שלהם לעבודה׳." },
       "02": { exercises: ["כתוב 3 כותרות לדף שלך — איזו עוצרת את הגלילה?", "הקלט את עצמך מסביר לחבר מה אתה עושה. תמלל.", "השלם: ׳הלקוחות שלי מגיעים אליי עם תחושה של _____. עוזבים עם תחושה של _____׳"], example: "מרקוס חידד את המסר שלו מ׳שירותי קואצ׳ינג ניהולי׳ ל׳תוכנית בהירות מנהיגותית לסמנכ״לים חדשים שרוצים לזכות באמון מהר׳." },
       "03": { exercises: ["בדוק את הלינקדאין, האתר והאינסטגרם — האם הם מספרים אותו סיפור?", "בחר 3 עמודי תוכן שמשקפים את המומחיות שלך", "צור לוח שנה של תוכן ל-30 יום לפי העמודים"], example: "פריה איחדה את הנוכחות שלה סביב ׳מנהיגות רגועה׳ — אותו מבנה ביוגרפיה, סגנון תמונה ופלטה בכל מקום." },
-      "04": { exercises: ["מפה את המסע: גילוי → עניין → אמון → הזמנה → טרנספורמציה", "זהה את נקודת הנשירה הגדולה ביותר", "כתוב את אימייל האישור שלקוח מקבל אחרי הזמנה"], example: "ג׳יימס הוסיף כפתור אחד ׳הזמן שיחה חינם של 15 דקות׳ וראה את הפניות גדלות פי 4 בחודש הראשון." },
+      "04": { exercises: ["מפה את המסע: גילוי ← עניין ← אמון ← הזמנה ← טרנספורמציה", "זהה את נקודת הנשירה הגדולה ביותר", "כתוב את אימייל האישור שלקוח מקבל אחרי הזמנה"], example: "ג׳יימס הוסיף כפתור אחד ׳הזמן שיחה חינם של 15 דקות׳ וראה את הפניות גדלות פי 4 בחודש הראשון." },
     },
     de: {
       "01": { exercises: ["Schreibe deine Coaching-Ursprungsgeschichte in 100 Wörtern", "Liste 5 Kunden auf, mit denen du gerne gearbeitet hast — was haben sie gemeinsam?", "Vervollständige: ‚Ich helfe _____ dabei, _____ zu erreichen‘"], example: "Sarah, eine Burnout-Recovery-Coach, ging von ‚Ich helfe Menschen, sich besser zu fühlen‘ zu ‚Ich helfe Tech-Führungskräften in den 30ern, sich von Burnout zu erholen und ihre Beziehung zur Arbeit neu zu gestalten‘." },
