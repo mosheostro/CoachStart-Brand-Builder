@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Coach Start — Build Your Coaching Brand</title>
+<meta name="description" content="Build a coaching page that communicates your value, attracts the right clients, and turns visitors into bookings — in three weeks." />
+<meta name="theme-color" content="#2A2622" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%232A2622'/><path d='M32 14l4.6 12.4L49.6 28 39.4 36.6 42 49 32 42.6 22 49l2.6-12.4L14.4 28l13-1.6z' fill='url(%23g)'/><defs><linearGradient id='g' x1='14' y1='14' x2='50' y2='50'><stop offset='0' stop-color='%23D4B896'/><stop offset='1' stop-color='%23B8956A'/></linearGradient></defs></svg>" />
+<link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%232A2622'/><path d='M32 14l4.6 12.4L49.6 28 39.4 36.6 42 49 32 42.6 22 49l2.6-12.4L14.4 28l13-1.6z' fill='%23B8956A'/></svg>" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet">
 <style>
@@ -29,6 +33,13 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --theme-transition: background 0.35s var(--ease-out), color 0.35s var(--ease-out), border-color 0.35s var(--ease-out);
+
+  /* ── Fixed brand colors (do NOT flip with theme) ─────────── */
+  --cream-fixed: #FDFCFA;
+  --cream-fixed-soft: rgba(253,252,250,0.78);
+  --cream-fixed-mute: rgba(253,252,250,0.62);
+  --charcoal-fixed: #2A2622;
+  --charcoal-fixed-deep: #1C1A17;
 
   /* ── Design system: spacing scale (8px base) ─────────────── */
   --space-1: 4px;
@@ -202,6 +213,19 @@ body { font-family: var(--font-body); color: var(--text); background: var(--crea
 
 /* Mirror trailing arrows inside buttons via attribute selector */
 [dir="rtl"] button, [dir="rtl"] .arrow-flip { unicode-bidi: plaintext; }
+
+/* ── Premium polish: shadows, focus, transitions ───────────── */
+:root {
+  --shadow-card: 0 1px 2px rgba(42,38,34,.04), 0 4px 16px rgba(42,38,34,.06);
+  --shadow-card-hover: 0 4px 8px rgba(42,38,34,.06), 0 16px 40px rgba(42,38,34,.10);
+}
+[data-theme="dark"] {
+  --shadow-card: 0 1px 2px rgba(0,0,0,.30), 0 4px 16px rgba(0,0,0,.30);
+  --shadow-card-hover: 0 6px 16px rgba(0,0,0,.40), 0 20px 48px rgba(0,0,0,.45);
+}
+button { font-family: var(--font-body); }
+button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: inherit; }
+a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 4px; }
 
 /* ── Layout grid system ──────────────────────────────────────── */
 .section-pad {
@@ -1682,8 +1706,8 @@ const btnPrimary = {
   alignItems: "center",
   gap: 8,
   padding: "16px 32px",
-  background: "var(--charcoal)",
-  color: "var(--cream)",
+  background: "var(--charcoal-fixed)",
+  color: "var(--cream-fixed)",
   borderRadius: 50,
   border: "none",
   fontSize: 16,
@@ -1745,7 +1769,7 @@ const HeroSection = ({ onBuild, onDemo }) => {
             <div className="cta-btns" style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
               <button style={btnPrimary} onClick={onBuild}
                 onMouseEnter={e => { e.currentTarget.style.background = "var(--gold)"; e.currentTarget.style.color = "var(--white)"; }}
-                onMouseLeave={e => { e.currentTarget.style.background = "var(--charcoal)"; e.currentTarget.style.color = "var(--cream)"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = "var(--charcoal-fixed)"; e.currentTarget.style.color = "var(--cream-fixed)"; }}
               >{cs.tr('buildPage')}</button>
               <button style={btnSecondary} onClick={onDemo}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--gold)"; e.currentTarget.style.color = "var(--gold)"; }}
@@ -1891,7 +1915,7 @@ const ToolsSection = ({ onOpenTool }) => {
     <section className="section-tools-bg">
       <div style={sectionStyle} className="section-pad">
         <Reveal><div style={{ ...tagStyle, color: "var(--gold-light)" }}>{cs.tr('toolsTag')}</div></Reveal>
-        <Reveal delay={0.05}><h2 style={{ ...h2Style, color: "var(--cream)" }}>{cs.tr('toolsH2')}</h2></Reveal>
+        <Reveal delay={0.05}><h2 style={{ ...h2Style, color: "var(--cream-fixed)" }}>{cs.tr('toolsH2')}</h2></Reveal>
         <Reveal delay={0.1}>
           <p style={{ ...bodyStyle, color: "rgba(253,252,250,0.85)", marginBottom: 48 }}>{cs.tr('toolsBody')}</p>
         </Reveal>
@@ -1923,7 +1947,7 @@ const ToolCard = ({ tool, onClick, odd }) => {
         gridColumn: odd ? "1 / -1" : "auto",
       }}>
       <div style={{ fontSize: 20, color: "var(--gold)", marginBottom: 10 }}>{tool.icon}</div>
-      <div style={{ fontWeight: 600, fontSize: 18, color: "var(--cream)", marginBottom: 8 }}>{tool.title}</div>
+      <div style={{ fontWeight: 600, fontSize: 18, color: "var(--cream-fixed)", marginBottom: 8 }}>{tool.title}</div>
       <div style={{ fontSize: 14, color: "rgba(253,252,250,0.82)", lineHeight: 1.55 }}>{tool.desc}</div>
     </button>
   );
@@ -2135,12 +2159,12 @@ const Nav = ({ onBuild, theme, onThemeToggle, lang, onLangChange }) => {
           {/* CTA — hidden on mobile via class */}
           <button className="nav-cta-desktop" onClick={onBuild} style={{
             padding: "10px 22px", borderRadius: 50, fontSize: 14, fontWeight: 500,
-            background: "var(--charcoal)", color: "var(--cream)", border: "none",
+            background: "var(--charcoal-fixed)", color: "var(--cream-fixed)", border: "none",
             cursor: "pointer", fontFamily: "var(--font-body)",
             transition: "all 0.3s var(--ease-out)",
           }}
             onMouseEnter={e => e.currentTarget.style.background = "var(--gold)"}
-            onMouseLeave={e => e.currentTarget.style.background = "var(--charcoal)"}
+            onMouseLeave={e => e.currentTarget.style.background = "var(--charcoal-fixed)"}
           >{cs.tr('getStarted')}</button>
 
           {/* Hamburger */}
@@ -2154,7 +2178,7 @@ const Nav = ({ onBuild, theme, onThemeToggle, lang, onLangChange }) => {
       <div className={`nav-mobile-menu ${menuOpen ? 'open' : ''}`}>
         <button onClick={() => { onBuild(); setMenuOpen(false); }} style={{
           padding: "14px 40px", borderRadius: 50, fontSize: 16, fontWeight: 500,
-          background: "var(--charcoal)", color: "var(--cream)", border: "none",
+          background: "var(--charcoal-fixed)", color: "var(--cream-fixed)", border: "none",
           cursor: "pointer", fontFamily: "var(--font-body)",
         }}>{cs.tr('getStarted')}</button>
       </div>
@@ -2167,10 +2191,10 @@ const Footer = () => {
   const cs = window.__CS;
   return (
     <footer style={{
-      padding: "48px 32px", background: "var(--charcoal)", textAlign: "center",
+      padding: "48px 32px", background: "var(--charcoal-fixed)", textAlign: "center",
       borderTop: "1px solid rgba(184,149,106,0.15)"
     }}>
-      <div style={{ fontFamily: "var(--font-display)", fontSize: 20, color: "var(--cream)", marginBottom: 8 }}>
+      <div style={{ fontFamily: "var(--font-display)", fontSize: 20, color: "var(--cream-fixed)", marginBottom: 8 }}>
         Coach<span style={{ color: "var(--gold)" }}>Start</span>
       </div>
       <div style={{ fontSize: 14, color: "rgba(253,252,250,0.72)" }}>
@@ -2288,8 +2312,8 @@ const OnboardingFlow = ({ open, onClose }) => {
                 )}
                 <button onClick={handleNext} style={{
                   marginLeft: "auto", padding: "12px 28px", borderRadius: 50,
-                  background: answers[cur.key].trim() ? "var(--charcoal)" : "var(--sand)",
-                  color: answers[cur.key].trim() ? "var(--cream)" : "var(--text-muted)",
+                  background: answers[cur.key].trim() ? "var(--charcoal-fixed)" : "var(--sand)",
+                  color: answers[cur.key].trim() ? "var(--cream-fixed)" : "var(--text-muted)",
                   border: "none", fontSize: 15, cursor: "pointer", fontFamily: "var(--font-body)",
                   fontWeight: 500, transition: "all 0.3s var(--ease-out)",
                 }}>{step < 2 ? window.__CS.tr('continue') : window.__CS.tr('generate')}</button>
@@ -2318,17 +2342,17 @@ const GeneratedPage = ({ answers, onClose }) => {
       background: "var(--cream)"
     }}>
       {/* Mock page header */}
-      <div style={{ padding: "48px 32px", textAlign: "center", background: "var(--charcoal)" }}>
+      <div style={{ padding: "48px 32px", textAlign: "center", background: "var(--charcoal-fixed)" }}>
         <div style={{
           width: 56, height: 56, borderRadius: "50%", margin: "0 auto 16px",
           background: "linear-gradient(135deg, var(--gold), var(--gold-light))",
           display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 24, color: "var(--charcoal)"
+          fontSize: 24, color: "var(--charcoal-fixed)"
         }}>★</div>
-        <h3 style={{ fontFamily: "var(--font-display)", fontSize: 24, color: "var(--cream)", marginBottom: 8 }}>
+        <h3 style={{ fontFamily: "var(--font-display)", fontSize: 24, color: "var(--cream-fixed)", marginBottom: 8 }}>
           {answers.who.split(" ").slice(0, 4).join(" ") || "Your Name"}
         </h3>
-        <p style={{ fontSize: 14, color: "rgba(253,252,250,0.6)" }}>
+        <p style={{ fontSize: 14, color: "var(--cream-fixed-mute)" }}>
           Helping {answers.audience.split(" ").slice(0, 6).join(" ") || "your ideal clients"}
         </p>
       </div>
@@ -2341,8 +2365,8 @@ const GeneratedPage = ({ answers, onClose }) => {
           </p>
         </div>
         <button style={{
-          width: "100%", padding: "14px", borderRadius: 50, background: "var(--charcoal)",
-          color: "var(--cream)", border: "none", fontSize: 15, cursor: "pointer",
+          width: "100%", padding: "14px", borderRadius: 50, background: "var(--charcoal-fixed)",
+          color: "var(--cream-fixed)", border: "none", fontSize: 15, cursor: "pointer",
           fontFamily: "var(--font-body)", fontWeight: 500,
         }}>{cs.tr('bookCall')} →</button>
       </div>
@@ -2402,15 +2426,15 @@ const WalkthroughFlow = ({ open, onClose }) => {
               }}>{cs.tr('back')}</button>
             )}
             <button onClick={() => step < 3 ? setStep(step + 1) : onClose()} style={{
-              padding: "10px 24px", borderRadius: 50, background: "var(--charcoal)",
-              color: "var(--cream)", border: "none", fontSize: 14, cursor: "pointer",
+              padding: "10px 24px", borderRadius: 50, background: "var(--charcoal-fixed)",
+              color: "var(--cream-fixed)", border: "none", fontSize: 14, cursor: "pointer",
               fontFamily: "var(--font-body)", fontWeight: 500,
             }}>{step < 3 ? cs.tr('wtNext') : cs.tr('wtGotIt')}</button>
           </div>
         </div>
         {/* Visual */}
         <div style={{
-          aspectRatio: "1", borderRadius: 16, background: "var(--charcoal)",
+          aspectRatio: "1", borderRadius: 16, background: "var(--charcoal-fixed)",
           display: "flex", alignItems: "center", justifyContent: "center",
           position: "relative", overflow: "hidden"
         }}>
@@ -2631,8 +2655,8 @@ const ToolDemo = ({ open, onClose, tool }) => {
             }}
           />
           <button onClick={handleGenerate} style={{
-            padding: "12px 20px", borderRadius: 12, background: "var(--charcoal)",
-            color: "var(--cream)", border: "none", fontSize: 14, cursor: "pointer",
+            padding: "12px 20px", borderRadius: 12, background: "var(--charcoal-fixed)",
+            color: "var(--cream-fixed)", border: "none", fontSize: 14, cursor: "pointer",
             fontFamily: "var(--font-body)", fontWeight: 500, whiteSpace: "nowrap",
           }}>{window.__CS.tr('generate')}</button>
         </div>
@@ -2713,8 +2737,8 @@ const BookingFlow = ({ open, onClose }) => {
                 {times.map(t => (
                   <button type="button" key={t} onClick={() => setForm({...form, time: t})} style={{
                     padding: "8px 16px", borderRadius: 20, fontSize: 13,
-                    background: form.time === t ? "var(--charcoal)" : "var(--cream)",
-                    color: form.time === t ? "var(--cream)" : "var(--text-muted)",
+                    background: form.time === t ? "var(--charcoal-fixed)" : "var(--cream)",
+                    color: form.time === t ? "var(--cream-fixed)" : "var(--text-muted)",
                     border: `1px solid ${form.time === t ? "var(--charcoal)" : "var(--sand)"}`,
                     cursor: "pointer", fontFamily: "var(--font-body)",
                     transition: "all 0.2s",
@@ -2725,8 +2749,8 @@ const BookingFlow = ({ open, onClose }) => {
           </div>
           <button type="submit" style={{
             width: "100%", marginTop: 24, padding: "14px", borderRadius: 50,
-            background: (form.name && form.email && form.time) ? "var(--charcoal)" : "var(--sand)",
-            color: (form.name && form.email && form.time) ? "var(--cream)" : "var(--text-muted)",
+            background: (form.name && form.email && form.time) ? "var(--charcoal-fixed)" : "var(--sand)",
+            color: (form.name && form.email && form.time) ? "var(--cream-fixed)" : "var(--text-muted)",
             border: "none", fontSize: 16, cursor: "pointer",
             fontFamily: "var(--font-body)", fontWeight: 500,
             transition: "all 0.3s var(--ease-out)",
