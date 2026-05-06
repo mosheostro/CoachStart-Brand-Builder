@@ -526,7 +526,7 @@ window.__CS = {
     },
     he: {
       getStarted: "להתחיל",
-      buildPage: "בנה את דף הקואצ׳ שלי →",
+      buildPage: "בנה את דף הקואצ׳ שלי ←",
       seeHow: "ראה איך זה עובד",
       heroTag: "מיתוג אישי לקואצ׳ים",
       heroH1a: "זה מי שאתה.",
@@ -549,7 +549,7 @@ window.__CS = {
       timelineBody: "ספרינט מובנה שמוביל אותך מרעיונות מפוזרים לדף קואצ׳ חי ופועל.",
       ctaH2: "מוכן לבנות מותג שמושך לקוחות?",
       ctaBody: "התחל בתהליך המונחה עכשיו, או דבר עם מישהו מהצוות שלנו. ללא לחץ, ללא מכירות — רק בהירות.",
-      buildBrand: "בנה את המותג שלי →",
+      buildBrand: "בנה את המותג שלי ←",
       talkHuman: "דבר עם אדם",
       footerTag: "בנה מותג קואצ׳ שמושך לקוחות.",
       footerYear: "© 2026",
@@ -557,15 +557,15 @@ window.__CS = {
       week1: "שבוע 1", week2: "שבוע 2", week3: "שבוע 3",
       identity: "זהות", message: "מסר", launch: "השקה",
       output: "פלט",
-      clickMore: "לחץ לפרטים נוספים →",
+      clickMore: "לחץ לפרטים נוספים ←",
       stepOf: (n, t) => `שלב ${n} מתוך ${t}`,
-      continue: "המשך →", generate: "צור את הדף שלי →", back: "← חזרה",
+      continue: "המשך ←", generate: "צור את הדף שלי ←", back: "→ חזרה",
       bookCall: "הזמן שיחה",
       talkTitle: "דבר עם אדם",
       talkBody: "15 דקות. ללא מכירות. רק בהירות אם Coach Start מתאים לך.",
       yourName: "שמך", yourEmail: "you@email.com",
       pickTime: "בחר זמן",
-      bookBtn: "הזמן את השיחה שלי →",
+      bookBtn: "הזמן את השיחה שלי ←",
       booked: (name) => `נקבעה לך פגישה, ${name}`,
       bookedSub: (time, email) => `${time} — נשלח אישור ל-${email}`,
       bookedNote: "בדוק את תיבת הדואר שלך — נשלח הזמנת יומן ושאלות הכנה.",
@@ -573,7 +573,7 @@ window.__CS = {
       generating: "בונה את דף הקואצ׳ שלך...",
       preview: "דף הקואצ׳ שלך",
       previewNote: "זהו תצוגה מקדימה. במערכת המלאה תוכל להתאים כל סעיף.",
-      continueExploring: "המשך לחקור →",
+      continueExploring: "המשך לחקור ←",
       animBrand: "המותג שלך", animPresence: "נוכחות", animClients: "לקוחות", animOnePage: "דף אחד עוצמתי",
       animUnclearNiche: "נישה לא ברורה", animWeakMsg: "מסרים חלשים", animNoPresence: "אין נוכחות", animNoBooking: "אין מסלול הזמנה",
       animFlow: "זרימה", animContent: "תוכן", animStory: "סיפור", animJourney: "מסע", animYourPage: "הדף שלך",
@@ -583,7 +583,7 @@ window.__CS = {
       wtStep2Title: "הגדר את הלקוח האידיאלי שלך", wtStep2Desc: "היה ספציפי לגבי מי אתה משרת הכי טוב. ככל שהנישה ברורה יותר, כך המסרים שלך מושכים יותר.",
       wtStep3Title: "עצב את המסר שלך", wtStep3Desc: "אנחנו עוזרים לך לנסח את הערך שלך במילים שמהדהדות. כותרות, ביוגרפיות והצעת ערך מרכזית — מוכנים לשימוש.",
       wtStep4Title: "בנה את הדף שלך", wtStep4Desc: "הכל מתאחד בדף קואצ׳ עוצמתי אחד — עם מסלול ברור מהביקור הראשון עד להזמנה.",
-      wtNext: "הבא →", wtGotIt: "הבנתי →", wtStepOf: (n, t) => `שלב ${n} מתוך ${t}`,
+      wtNext: "הבא ←", wtGotIt: "הבנתי ←", wtStepOf: (n, t) => `שלב ${n} מתוך ${t}`,
       outputLabel: "פלט",
       step1Title: "זהות ונישה", step1Desc: "הגדר מי אתה, את מי אתה משרת ומה הופך את הגישה שלך לייחודית.", step1Output: "הצהרת נישה + פרופיל לקוח אידיאלי",
       step2Title: "מסר ברור", step2Desc: "נסח מסרים שמדברים ישירות לכאב ולשינוי שהלקוח שלך מחפש.", step2Output: "הצעת ערך + מסגרת מסרים מרכזית",
@@ -2401,7 +2401,7 @@ const GeneratedPage = ({ answers, onClose }) => {
           width: "100%", padding: "14px", borderRadius: 50, background: "var(--charcoal-fixed)",
           color: "var(--cream-fixed)", border: "none", fontSize: 15, cursor: "pointer",
           fontFamily: "var(--font-body)", fontWeight: 500,
-        }}>{cs.tr('bookCall')} →</button>
+        }}>{cs.tr('bookCall')} <span className="rtl-mirror">→</span></button>
       </div>
     </div>
     <div style={{ marginTop: 24, textAlign: "center" }}>
